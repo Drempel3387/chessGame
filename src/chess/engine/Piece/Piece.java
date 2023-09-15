@@ -1,22 +1,24 @@
 package chess.engine.Piece;
+import chess.engine.chessTile.Coordinate;
+
 public abstract class Piece {
     private boolean isAlive;//has the piece been captured
     private final Colour colour;//Colour of the piece, BLACK or WHITE
-    private int position;
-    public Piece(final Colour colour, int position)
+    private Coordinate coordinate;
+    public Piece(final Colour colour, Coordinate coordinate)
     {
         this.colour = colour;
-        this.position = position;
+        this.coordinate = coordinate;
         this.isAlive = true;
     }
     //getters
     public boolean getIsAlive() {return isAlive;}
     public Colour getColour() {return colour;}
-    public int getPosition() {return position;}
+    public Coordinate getCoordinate() {return coordinate;}
 
     //setters
     void setIsAlive(boolean isAlive) {this.isAlive = isAlive;}
-    void setPosition(int position) {this.position = position;}
+    void setCoordinate(Coordinate coordinate) {this.coordinate = coordinate;}
 
     public abstract boolean isLegalmove();
 }
