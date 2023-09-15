@@ -1,4 +1,4 @@
-package chess.engine.chessTile;
+package chess.engine.Board.chessTile;
 public class Coordinate {
     //row and column values which relate to a chessboard
     private int rank;

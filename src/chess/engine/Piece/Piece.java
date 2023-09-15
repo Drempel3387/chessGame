@@ -1,5 +1,6 @@
 package chess.engine.Piece;
-import chess.engine.chessTile.Coordinate;
+import chess.engine.Board.chessTile.Coordinate;
+import chess.engine.Board.Board;
 
 public abstract class Piece {
     private boolean isAlive;//has the piece been captured
@@ -20,5 +21,5 @@ public abstract class Piece {
     void setIsAlive(boolean isAlive) {this.isAlive = isAlive;}
     void setCoordinate(Coordinate coordinate) {this.coordinate = coordinate;}
 
-    public abstract boolean isLegalmove();
+    public abstract boolean isLegalmove(Board board, Coordinate start, Coordinate end);
 }

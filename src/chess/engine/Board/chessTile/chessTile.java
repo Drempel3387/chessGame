@@ -1,4 +1,4 @@
-package chess.engine.chessTile;
+package chess.engine.Board.chessTile;
 import chess.engine.Piece.Piece;
 public class chessTile {
     //private data members
