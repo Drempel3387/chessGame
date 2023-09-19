@@ -1,18 +1,25 @@
-package chess.engine.Board.chessTile;
+package chess.engine;
 public class Coordinate {
     //row and column values which relate to a chessboard
     private int rank;
     private int file;
 
     //minimum and maximum rank and files values for a chess board (8x8 collection of tiles)
-    public final static int MINCOORDINATE = 1;
-    public final static int MAXCOORDINATE = 8;
+    public final static int MINCOORDINATE = 0;
+    public final static int MAXCOORDINATE = 7;
 
     public Coordinate(int file, int rank)
     {
         this.rank = rank;
         this.file = file;
-    }
+    }//parameterized constructor
+
+    public Coordinate(Coordinate coordinate)
+    {
+        this.rank = coordinate.getRank();
+        this.file = coordinate.getFile();
+    }//copy constructor
+
     //getters
     public int getRank() {return rank;}
     public int getFile() {return file;}
@@ -34,8 +41,25 @@ public class Coordinate {
        return (rank == coordinate.getRank() && file == coordinate.getFile());//if both are equal (true), otherwise false
     }
 
+    public Coordinate add(Coordinate coordinate)//add two coordinates
+    {
+        return (new Coordinate(this.file + coordinate.getFile(), this.rank + coordinate.getRank()));
+    }
+
+    public Coordinate multiply(int number)
+    {
+        return new Coordinate(this.file*number, this.rank*number);
+    }
+
+    public void Copy(Coordinate coordinate)
+    {
+        this.rank = coordinate.getRank();
+        this.file = coordinate.getFile();
+    }
+
+
     //use for conversion to algebraic notation, 96 is the character directly before 'a'
-    private final static int STARTINGFILE = 96;
+    private final static int STARTINGFILE = 97;
     @Override
     public String toString()//will return the coordinate in algebraic notation. Ex. a4, b6, h8, etc
     {

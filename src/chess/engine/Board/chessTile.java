@@ -1,5 +1,7 @@
-package chess.engine.Board.chessTile;
-import chess.engine.Piece.Piece;
+package chess.engine.Board;
+import chess.engine.Coordinate;
+import chess.engine.Pieces.Piece;
+
 public class chessTile {
     //private data members
     protected final Coordinate coordinate;//location of the chessTile
