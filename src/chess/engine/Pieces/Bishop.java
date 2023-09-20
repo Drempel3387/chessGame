@@ -46,10 +46,9 @@ public class Bishop extends Piece {
         return legalMoves;
     }//get a list of all legal moves for a bishop
 
-
     @Override
-    public void print() {
-            System.out.printf("%2c", 'B');
+    public String toString() {
+        return "B";
     }
 
 

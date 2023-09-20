@@ -17,4 +17,12 @@ public abstract class Move {
     }
 
     public Coordinate getEndingCoordinate() {return endingCoordinate;}
+
+    public Piece getPiece() {
+        return piece;
+    }
+
+    public Board getBoard() {
+        return board;
+    }
 }

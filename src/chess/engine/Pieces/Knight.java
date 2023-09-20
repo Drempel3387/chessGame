@@ -43,9 +43,8 @@ public class Knight extends Piece {
         return legalMoves;
     }
 
-
     @Override
-    public void print() {
-        System.out.printf("%2s", "Kn");
+    public String toString() {
+        return "N";
     }
 }

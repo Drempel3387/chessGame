@@ -50,9 +50,9 @@ public class King extends Piece {
         return legalMoves;
     }
 
-
     @Override
-    public void print() {
-        System.out.printf("%2c", 'K');
+    public String toString() {
+        return "K";
     }
+
 }

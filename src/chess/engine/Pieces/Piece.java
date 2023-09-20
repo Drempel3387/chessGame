@@ -27,6 +27,6 @@ public abstract class Piece {
     void setCoordinate(Coordinate coordinate) {this.coordinate = coordinate;}
 
     public abstract List<Move> getLegalMoves(final Board board);
-    public abstract void print();//print the piece to the console (for debugging)
+    public abstract String toString();
 }
 

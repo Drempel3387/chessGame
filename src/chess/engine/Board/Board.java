@@ -5,7 +5,7 @@ import chess.engine.Pieces.*;
 
 public class Board {
     //the actual "chess board" 8x8 array of chessTiles
-    private chessTile[][] tiles = new chessTile[RANKS][FILES];
+    private final chessTile[][] tiles = new chessTile[RANKS][FILES];
 
     //number of ranks and files
     public static final int FILES = 8;
@@ -30,11 +30,11 @@ public class Board {
 
     private void initSquares()
     {
-        for (int rank = FIRST; rank < RANKS; rank++)
+        for (int rank = 0; rank < RANKS; rank++)
         {
-            for (int file = FIRST; file < FILES; file++)
+            for (int file = 0; file < FILES; file++)
             {
-                tiles[rank][file] = new chessTile(new Coordinate(file, rank), null);
+                tiles[rank][file] = new chessTile(new Coordinate(file, RANKS -1 -rank), null);
             }
         }
     }
@@ -89,25 +89,6 @@ public class Board {
 
         //add the black queen to the eight rank
         tiles[FIRST][FOURTH].setPiece(new Queen(Colour.WHITE,  new Coordinate(FOURTH, FIRST)));
-    }
-    public void print()//print the board to the console window (debug use mainly)
-    {
-        for (int rank = FIRST; rank < RANKS; rank++)
-        {
-            for (int file = FIRST; file < FILES; file++)
-            {
-                try
-                {
-                    tiles[rank][file].getPiece().print();
-                }
-                catch(NullPointerException e) //Squares without pieces will be null, print "E" to signify empty
-                {
-                    System.out.printf("%2c", 'E');
-                }
-                System.out.print(" ");
-            }
-            System.out.println();
-        }
     }
 
     public chessTile getTileAt(Coordinate coordinate)

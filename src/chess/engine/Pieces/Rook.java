@@ -47,8 +47,9 @@ public class Rook extends Piece {
         }
         return legalMoves;
     }
+
     @Override
-    public void print() {
-        System.out.printf("%2c", 'R');
+    public String toString() {
+        return "R";
     }
 }

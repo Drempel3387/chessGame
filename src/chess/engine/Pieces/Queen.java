@@ -50,9 +50,11 @@ public class Queen extends Piece {
         return legalMoves;
     }
 
-
     @Override
-    public void print() {
-        System.out.printf("%2c", 'Q');
+    public String toString() {
+        return "Q";
     }
+
+
+
 }
