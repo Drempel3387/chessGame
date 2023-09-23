@@ -1,11 +1,7 @@
 package chess.engine;
-public enum Colour
+public enum Colour//Colour of a piece and/or square
 {
-    WHITE {
-        public int getDirection() {return -1;}
-    },
-    BLACK {
-        public int getDirection() {return 1;}
-    };
-    public abstract int getDirection();
+    WHITE,
+    BLACK
 }
+

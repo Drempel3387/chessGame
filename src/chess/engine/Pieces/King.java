@@ -1,9 +1,7 @@
 package chess.engine.Pieces;
 
 import chess.engine.Board.Board;
-import chess.engine.Board.Moves.Move;
-import chess.engine.Board.Moves.NormalMove;
-import chess.engine.Board.Moves.attackMove;
+import chess.engine.Moves.Move;
 import chess.engine.Colour;
 import chess.engine.Coordinate;
 
@@ -12,7 +10,7 @@ import java.util.List;
 
 public class King extends Piece {
 
-    public static final Coordinate[] POSSIBLEMOVES = {
+    public static final Coordinate[] POSSIBLE_MOVES = {
             new Coordinate(1, 1), new Coordinate(1, -1),
             new Coordinate(-1, 1), new Coordinate(-1, -1),
             new Coordinate(1, 0), new Coordinate(0, 1),
@@ -27,28 +25,24 @@ public class King extends Piece {
         List<Move> legalMoves = new ArrayList<>();
         Coordinate possibleCoordinate;
 
-        for (Coordinate possibleMove: POSSIBLEMOVES)
-        {
-            possibleCoordinate = this.coordinate.add(possibleMove);
-            if (possibleCoordinate.isValid())//coordinate within the chess board
-            {
-                Piece piece = board.getTileAt(possibleCoordinate).getPiece();
-                if (piece == null)//the tile is empty
+        for (Coordinate possibleMove : POSSIBLE_MOVES) {
+            possibleCoordinate = this.coordinate.add(possibleMove);//see if the current coordinate + a move is valid
+            if (possibleCoordinate.isValid()) {
+                if (board.getTileAt(possibleCoordinate).getPiece() == null)//if tile not occupied
                 {
-                    legalMoves.add(new NormalMove(board, this, possibleCoordinate));
+                    legalMoves.add(new Move(board, this, possibleCoordinate));
                 }
-                else
+                else//if occupied
                 {
-                    if (this.colour != piece.getColour())
-                    {
-                        legalMoves.add(new attackMove(board, this, piece, possibleCoordinate));
-                    }
-                    break;
+                    Piece destinationPiece = board.getTileAt(possibleCoordinate).getPiece();
+                    if (destinationPiece.getColour() != this.colour)//if the colour of the piece at the destination is not the current pieces colour
+                        legalMoves.add(new Move(board, this, possibleCoordinate));
                 }
             }
         }
         return legalMoves;
     }
+
 
     @Override
     public String toString() {

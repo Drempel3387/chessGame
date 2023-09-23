@@ -1,9 +1,7 @@
 package chess.engine.Pieces;
 
 import chess.engine.Board.Board;
-import chess.engine.Board.Moves.attackMove;
-import chess.engine.Board.Moves.Move;
-import chess.engine.Board.Moves.NormalMove;
+import chess.engine.Moves.Move;
 import chess.engine.Colour;
 import chess.engine.Coordinate;
 
@@ -31,12 +29,12 @@ public class Bishop extends Piece {
             {
                 if (board.getTileAt(possibleCoordinate).getPiece() == null) //if no piece at the tile, this is a possible move
                 {
-                    legalMoves.add(new NormalMove(board, this, possibleCoordinate));
+                    legalMoves.add(new Move(board, this, possibleCoordinate));
                 }
                 else {//if there is a piece
                     if (this.colour != board.getTileAt(possibleCoordinate).getPiece().getColour())
                     {
-                        legalMoves.add(new attackMove(board, this, board.getTileAt(possibleCoordinate).getPiece(), possibleCoordinate));
+                        legalMoves.add(new Move(board, this, possibleCoordinate));
                     }//if not own colour, add the move, and don't look further. Bishop only has scope until it sees another piece (cannot move through other pieces)
                     break;
                 }
