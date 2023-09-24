@@ -69,7 +69,7 @@ public class Board {
         //add the black queen to the eight rank
         tiles[EIGHTH][FOURTH].setPiece(new Queen(Colour.BLACK,  new Coordinate(FOURTH, EIGHTH)));
     }
-    private void initWhitePieces()//initial all the white pieces
+    private void initWhitePieces()//initialize all the white pieces
     {
         for (int i = 0; i < FILES; i++)
         {
