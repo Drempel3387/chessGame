@@ -51,12 +51,20 @@ public class Coordinate {
         return new Coordinate(this.file*number, this.rank*number);
     }
 
+    public double distance(Coordinate secondCoordinate)
+    {
+        double deltaX, deltaY;
+        deltaX = this.getFile() - secondCoordinate.getFile();
+        deltaY = this.getRank() - secondCoordinate.getRank();
+        return (Math.sqrt(Math.pow(deltaX, 2)+ Math.pow(deltaY, 2)));
+    }
+
     //use for conversion to algebraic notation
     public final static int STARTING_FILE = 97;
     @Override
     public String toString()//will return the coordinate in algebraic notation. Ex. a4, b6, h8, etc
     {
-        return ((char)(STARTING_FILE + (char)file) + (Integer.toString(rank + 1)));
+        return ((char)(STARTING_FILE + (char)file) + (Integer.toString(MAX_COORDINATE - rank + 1)));
     }
 
     public String fileToString()

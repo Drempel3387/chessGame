@@ -1,17 +1,16 @@
 package chess.engine.Board;
 import chess.engine.Colour;
 import chess.engine.Coordinate;
-import chess.engine.Moves.Move;
 import chess.engine.Pieces.*;
-import chess.engine.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Board {
     //the actual "chess board" 8x8 array of Squares
-    private final Square[][] tiles = new Square[RANKS][FILES];
+    private final Square[][] squares = new Square[RANKS][FILES];
+    private final List<Piece> whitePieces = new ArrayList<>();
+    private final List<Piece> blackPieces = new ArrayList<>();
 
     //number of ranks and files
     public static final int FILES = 8;
@@ -40,69 +39,100 @@ public class Board {
         {
             for (int file = 0; file < FILES; file++)
             {
-                tiles[rank][file] = new Square(new Coordinate(file, RANKS - rank - 1), null);
+                squares[rank][file] = new Square(new Coordinate(file, RANKS - rank - 1), null);
             }//initialize each squares in the array with the correct coordinate, and no Piece yet
         }
     }//a square with a null piece signifies it is empty
-    private void initBlackPieces()//initialize all the black pieces
-    {
-       for (int i = 0; i < FILES; i++)
-       {
-           tiles[SEVENTH][i].setPiece(new Pawn(Colour.BLACK,  new Coordinate(i , SEVENTH)));
-       }//set all pieces in 7th rank to black pawns
+    private void initBlackPieces() {
+//        for (int i = 0; i < FILES; i++) {
+//            Pawn pawn = new Pawn(Colour.BLACK, new Coordinate(i, SEVENTH));
+//            squares[SEVENTH][i].setPiece(pawn);
+//            blackPieces.add(pawn);
+//        }//set all pieces in 7th rank to black pawns
 
-        //add both black rooks to the eighth rank
-        tiles[EIGHTH][FIRST].setPiece(new Rook(Colour.BLACK,  new Coordinate(FIRST, EIGHTH)));
-        tiles[EIGHTH][EIGHTH].setPiece(new Rook(Colour.BLACK,  new Coordinate(EIGHTH, EIGHTH)));
+        //Add both black rooks to the eighth rank
+        Rook blackRook1 = new Rook(Colour.BLACK, new Coordinate(FIRST, EIGHTH));
+        Rook blackRook2 = new Rook(Colour.BLACK, new Coordinate(EIGHTH, EIGHTH));
+        squares[EIGHTH][FIRST].setPiece(blackRook1);
+        squares[EIGHTH][EIGHTH].setPiece(blackRook2);
+        blackPieces.add(blackRook1);
+        blackPieces.add(blackRook2);
 
-        //add both black bishops to the eighth rank
-        tiles[EIGHTH][THIRD].setPiece(new Bishop(Colour.BLACK,  new Coordinate(THIRD, EIGHTH)));
-        tiles[EIGHTH][SIXTH].setPiece(new Bishop(Colour.BLACK,  new Coordinate(SIXTH, EIGHTH)));
+        //Add both black bishops to the eighth rank
+        Bishop blackBishop1 = new Bishop(Colour.BLACK, new Coordinate(THIRD, EIGHTH));
+        Bishop blackBishop2 = new Bishop(Colour.BLACK, new Coordinate(SIXTH, EIGHTH));
+        squares[EIGHTH][THIRD].setPiece(blackBishop1);
+        squares[EIGHTH][SIXTH].setPiece(blackBishop2);
+        blackPieces.add(blackBishop1);
+        blackPieces.add(blackBishop2);
 
-        //add both black knights to the eighth rank
-        tiles[EIGHTH][SECOND].setPiece(new Knight(Colour.BLACK,  new Coordinate(SECOND, EIGHTH)));
-        tiles[EIGHTH][SEVENTH].setPiece(new Knight(Colour.BLACK, new Coordinate(SEVENTH, EIGHTH)));
+        //Add both black knights to the eighth rank
+        Knight blackKnight1 = new Knight(Colour.BLACK, new Coordinate(SECOND, EIGHTH));
+        Knight blackKnight2 = new Knight(Colour.BLACK, new Coordinate(SEVENTH, EIGHTH));
+        squares[EIGHTH][SECOND].setPiece(blackKnight1);
+        squares[EIGHTH][SEVENTH].setPiece(blackKnight2);
+        blackPieces.add(blackKnight1);
+        blackPieces.add(blackKnight2);
 
-        //add the black king to the eighth rank
-        tiles[EIGHTH][FIFTH].setPiece(new King(Colour.BLACK,  new Coordinate(FIFTH, EIGHTH)));
+        //Add the black king to the eighth rank
+        King blackKing = new King(Colour.BLACK, new Coordinate(FOURTH, EIGHTH));
+        squares[EIGHTH][FOURTH].setPiece(blackKing);
+        blackPieces.add(blackKing);
 
-        //add the black queen to the eight rank
-        tiles[EIGHTH][FOURTH].setPiece(new Queen(Colour.BLACK,  new Coordinate(FOURTH, EIGHTH)));
+        //Add the black queen to the eight rank
+        Queen blackQueen = new Queen(Colour.BLACK, new Coordinate(FIFTH, EIGHTH));
+        squares[EIGHTH][FIFTH].setPiece(blackQueen);
+        blackPieces.add(blackQueen);
     }
-    private void initWhitePieces()//initialize all the white pieces
-    {
-        for (int i = 0; i < FILES; i++)
-        {
-            tiles[SECOND][i].setPiece(new Pawn(Colour.WHITE,  new Coordinate(i, SECOND)));
-        }//set all pieces in 2nd rank to black pawns
+    private void initWhitePieces() {
+//        for (int i = 0; i < FILES; i++) {
+//            Pawn pawn = new Pawn(Colour.WHITE, new Coordinate(i, SECOND));
+//            squares[SECOND][i].setPiece(pawn);
+//            whitePieces.add(pawn);
+//        }//Set all pieces in 2nd rank to white pawns
 
+        //Add both white rooks to the first rank
+        Rook whiteRook1 = new Rook(Colour.WHITE, new Coordinate(FIRST, FIRST));
+        Rook whiteRook2 = new Rook(Colour.WHITE, new Coordinate(EIGHTH, FIRST));
+        squares[FIRST][FIRST].setPiece(whiteRook1);
+        squares[FIRST][EIGHTH].setPiece(whiteRook2);
+        whitePieces.add(whiteRook1);
+        whitePieces.add(whiteRook2);
 
-        //add both black rooks to the eighth rank
-        tiles[FIRST][FIRST].setPiece(new Rook(Colour.WHITE,  new Coordinate(FIRST, FIRST)));
-        tiles[FIRST][EIGHTH].setPiece(new Rook(Colour.WHITE,  new Coordinate(EIGHTH, FIRST)));
+        //Add both white bishops to the first rank
+        Bishop whiteBishop1 = new Bishop(Colour.WHITE, new Coordinate(THIRD, FIRST));
+        Bishop whiteBishop2 = new Bishop(Colour.WHITE, new Coordinate(SIXTH, FIRST));
+        squares[FIRST][THIRD].setPiece(whiteBishop1);
+        squares[FIRST][SIXTH].setPiece(whiteBishop2);
+        whitePieces.add(whiteBishop1);
+        whitePieces.add(whiteBishop2);
 
-        //add both black bishops to the eighth rank
-        tiles[FIRST][THIRD].setPiece(new Bishop(Colour.WHITE,  new Coordinate(THIRD, FIRST)));
-        tiles[FIRST][SIXTH].setPiece(new Bishop(Colour.WHITE,  new Coordinate(SIXTH, FIRST)));
+        //Add both white knights to the first rank
+        Knight whiteKnight1 = new Knight(Colour.WHITE, new Coordinate(SECOND, FIRST));
+        Knight whiteKnight2 = new Knight(Colour.WHITE, new Coordinate(SEVENTH, FIRST));
+        squares[FIRST][SECOND].setPiece(whiteKnight1);
+        squares[FIRST][SEVENTH].setPiece(whiteKnight2);
+        whitePieces.add(whiteKnight1);
+        whitePieces.add(whiteKnight2);
 
-        //add both black knights to the eighth rank
-        tiles[FIRST][SECOND].setPiece(new Knight(Colour.WHITE,  new Coordinate(SECOND, FIRST)));
-        tiles[FIRST][SEVENTH].setPiece(new Knight(Colour.WHITE, new Coordinate(SEVENTH, FIRST)));
+        //Add the white king to the first rank
+        King whiteKing = new King(Colour.WHITE, new Coordinate(FOURTH, FIRST));
+        squares[FIRST][FOURTH].setPiece(whiteKing);
+        whitePieces.add(whiteKing);
 
-        //add the black king to the eight rank
-        tiles[FIRST][FIFTH].setPiece(new King(Colour.WHITE,  new Coordinate(FIFTH, FIRST)));
-
-        //add the black queen to the eight rank
-        tiles[FIRST][FOURTH].setPiece(new Queen(Colour.WHITE,  new Coordinate(FOURTH, FIRST)));
+        //Add the white queen to the first rank
+        Queen whiteQueen = new Queen(Colour.WHITE, new Coordinate(FIFTH, FIRST));
+        squares[FIRST][FIFTH].setPiece(whiteQueen);
+        whitePieces.add(whiteQueen);
     }
 
-    public Square getTileAt(Coordinate coordinate)
+    public Square getSquareAt(Coordinate coordinate)
     {
-        return (tiles[coordinate.getRank()][coordinate.getFile()]);
+        return (squares[coordinate.getRank()][coordinate.getFile()]);
     }//return the tile at a specific coordinate
 
-    public Square[][] getTiles() {
-        return tiles;
+    public Square[][] getSquares() {
+        return squares;
     }//return the entire board
 
     public void print()
@@ -113,7 +143,7 @@ public class Board {
             for (int j = 0; j < FILES; j++)
             {
                 try {
-                    System.out.print(" " + tiles[i][j].getPiece().toString());
+                    System.out.print(" " + squares[i][j].getPiece().toString());
                 }
                 catch(NullPointerException e)
                 {
@@ -131,5 +161,14 @@ public class Board {
         System.out.println();
     }//print the entire board to the console
 
+    public List<Piece> getWhitePieces()
+    {
+        return whitePieces;
+    }
+
+    public List<Piece> getBlackPieces()
+    {
+        return blackPieces;
+    }
 
 }

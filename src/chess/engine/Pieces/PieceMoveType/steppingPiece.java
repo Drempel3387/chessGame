@@ -20,26 +20,51 @@ public abstract class steppingPiece extends Piece {
     public steppingPiece(Colour colour, Coordinate coordinate) {
         super(colour, coordinate);
     }
-    @Override
-    public List<Move> getLegalMoves(Board board, Coordinate[] POSSIBLE_MOVES) {
+
+    protected List<Move> getPseudoLegalMoves(Board board, Coordinate[] POSSIBLE_MOVES) {
         Coordinate possibleCoordinate;//candidate move
         List<Move> legalMoves = new ArrayList<>();//list of all legal moves
 
         for (Coordinate possibleMove : POSSIBLE_MOVES) {
             possibleCoordinate = this.coordinate.add(possibleMove);//see if the current coordinate + the possibleMove is within the board
             if (possibleCoordinate.isValid()) {
-                if (board.getTileAt(possibleCoordinate).getPiece() == null)//if tile not occupied
+                if (!board.getSquareAt(possibleCoordinate).isOccupied())//if tile not occupied
                 {
                     legalMoves.add(new Move(board, this, possibleCoordinate));
                 }
                 else//if occupied
                 {
-                    if (board.getTileAt(possibleCoordinate).getPiece().getColour() != this.colour)//if the colour of the piece at the destination is not the current pieces colour
+                    if (board.getSquareAt(possibleCoordinate).getPiece().getColour() != this.colour)//if the colour of the piece at the destination is not the current pieces colour
                         legalMoves.add(new Move(board, this, possibleCoordinate));
                 }
             }
         }
         return legalMoves;
     }
+     public boolean steppingPieceCanAttackSquare(Board board, Coordinate squarePosition, Coordinate[] POSSIBLE_MOVES)
+    {
+        if (!squarePosition.isValid())
+            return false;
 
+        //these values are used to see if it is sensible to check for attacking ability, if distance
+        //of the pieces is greater than the reach of the piece, it cannot attack the target square
+
+        double distanceBetween = squarePosition.distance(this.getCoordinate());
+        //distance between the current piece and the square to check
+        double attackReach = this.coordinate.distance(this.coordinate.add(POSSIBLE_MOVES[0]));
+        //the reach of a piece "How far they can attack"
+
+        if (distanceBetween > attackReach)
+            return false;
+
+        for (Coordinate possibleMove: POSSIBLE_MOVES)
+        {
+            if (this.coordinate.add(possibleMove).areEqual(squarePosition))
+                return true;
+            //if the current position of the square plus a valid move lands on the target square,
+            //the piece can attack the square
+        }
+
+        return false;
+    }
 }

@@ -6,9 +6,9 @@ import chess.engine.Coordinate;
 import chess.engine.Pieces.*;
 
 public class Move {
-    private Board board;
-    private Piece piece;
-    private Coordinate endingCoordinate = null;
+    private final Board board;
+    private final Piece piece;
+    private final Coordinate endingCoordinate;
 
     public Move(Board board, Piece piece, Coordinate endingCoordinate)
     {
@@ -36,7 +36,7 @@ public class Move {
 
     public Piece getEndingPiece()
     {
-        return (board.getTileAt(endingCoordinate).getPiece());
+        return (board.getSquareAt(endingCoordinate).getPiece());
     }//get the piece at the ending coordinate
 
     @Override
@@ -61,10 +61,5 @@ public class Move {
         return move;
     }
 
-    public Move stringToMove(String moveString, Board board)
-    {
-        boolean captureMove = moveString.contains("x");
-        return null;
-    }
 
 }

@@ -18,6 +18,17 @@ public class Knight extends steppingPiece {
     public Knight(Colour colour, Coordinate coordinate) {
         super(colour, coordinate);
     }
+
+    @Override
+    public List<Move> getLegalMoves(Board board) {
+        return getPseudoLegalMoves(board, POSSIBLE_MOVES);
+    }
+
+    @Override
+    public boolean canAttackSquare(Board board, Coordinate squarePosition) {
+        return steppingPieceCanAttackSquare(board, squarePosition, POSSIBLE_MOVES);
+    }
+
     @Override
     public String toString() {
         return "N";
