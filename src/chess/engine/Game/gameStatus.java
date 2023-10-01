@@ -1,4 +1,4 @@
-package chess.engine;
+package chess.engine.Game;
 
 public enum gameStatus {
     BLACK_WIN,

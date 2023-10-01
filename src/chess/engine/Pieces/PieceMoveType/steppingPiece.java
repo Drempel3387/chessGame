@@ -4,6 +4,7 @@ import chess.engine.Board.Board;
 import chess.engine.Colour;
 import chess.engine.Coordinate;
 import chess.engine.Moves.Move;
+import chess.engine.Moves.normalMove;
 import chess.engine.Pieces.Piece;
 
 import java.util.ArrayList;
@@ -30,15 +31,16 @@ public abstract class steppingPiece extends Piece {
             if (possibleCoordinate.isValid()) {
                 if (!board.getSquareAt(possibleCoordinate).isOccupied())//if tile not occupied
                 {
-                    legalMoves.add(new Move(board, this, possibleCoordinate));
+                    legalMoves.add(new normalMove(board, this, null, this.coordinate, possibleCoordinate));
                 }
                 else//if occupied
                 {
                     if (board.getSquareAt(possibleCoordinate).getPiece().getColour() != this.colour)//if the colour of the piece at the destination is not the current pieces colour
-                        legalMoves.add(new Move(board, this, possibleCoordinate));
+                        legalMoves.add(new normalMove(board, this, board.getSquareAt(possibleCoordinate).getPiece(), this.coordinate, possibleCoordinate));
                 }
             }
         }
+        removeInvalidMoves(legalMoves, board, this.colour);
         return legalMoves;
     }
      public boolean steppingPieceCanAttackSquare(Board board, Coordinate squarePosition, Coordinate[] POSSIBLE_MOVES)

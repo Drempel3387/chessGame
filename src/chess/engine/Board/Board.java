@@ -9,8 +9,13 @@ import java.util.List;
 public class Board {
     //the actual "chess board" 8x8 array of Squares
     private final Square[][] squares = new Square[RANKS][FILES];
+
+    //lists of the pieces for white and black
     private final List<Piece> whitePieces = new ArrayList<>();
     private final List<Piece> blackPieces = new ArrayList<>();
+
+    private King whiteKing;
+    private King blackKing;
 
     //number of ranks and files
     public static final int FILES = 8;
@@ -75,9 +80,8 @@ public class Board {
         blackPieces.add(blackKnight2);
 
         //Add the black king to the eighth rank
-        King blackKing = new King(Colour.BLACK, new Coordinate(FOURTH, EIGHTH));
+        blackKing = new King(Colour.BLACK, new Coordinate(FOURTH, EIGHTH));
         squares[EIGHTH][FOURTH].setPiece(blackKing);
-        blackPieces.add(blackKing);
 
         //Add the black queen to the eight rank
         Queen blackQueen = new Queen(Colour.BLACK, new Coordinate(FIFTH, EIGHTH));
@@ -99,31 +103,30 @@ public class Board {
         whitePieces.add(whiteRook1);
         whitePieces.add(whiteRook2);
 
-        //Add both white bishops to the first rank
-        Bishop whiteBishop1 = new Bishop(Colour.WHITE, new Coordinate(THIRD, FIRST));
-        Bishop whiteBishop2 = new Bishop(Colour.WHITE, new Coordinate(SIXTH, FIRST));
-        squares[FIRST][THIRD].setPiece(whiteBishop1);
-        squares[FIRST][SIXTH].setPiece(whiteBishop2);
-        whitePieces.add(whiteBishop1);
-        whitePieces.add(whiteBishop2);
-
-        //Add both white knights to the first rank
-        Knight whiteKnight1 = new Knight(Colour.WHITE, new Coordinate(SECOND, FIRST));
-        Knight whiteKnight2 = new Knight(Colour.WHITE, new Coordinate(SEVENTH, FIRST));
-        squares[FIRST][SECOND].setPiece(whiteKnight1);
-        squares[FIRST][SEVENTH].setPiece(whiteKnight2);
-        whitePieces.add(whiteKnight1);
-        whitePieces.add(whiteKnight2);
+//        //Add both white bishops to the first rank
+//        Bishop whiteBishop1 = new Bishop(Colour.WHITE, new Coordinate(THIRD, FIRST));
+//        Bishop whiteBishop2 = new Bishop(Colour.WHITE, new Coordinate(SIXTH, FIRST));
+//        squares[FIRST][THIRD].setPiece(whiteBishop1);
+//        squares[FIRST][SIXTH].setPiece(whiteBishop2);
+//        whitePieces.add(whiteBishop1);
+//        whitePieces.add(whiteBishop2);
+//
+//        //Add both white knights to the first rank
+//        Knight whiteKnight1 = new Knight(Colour.WHITE, new Coordinate(SECOND, FIRST));
+//        Knight whiteKnight2 = new Knight(Colour.WHITE, new Coordinate(SEVENTH, FIRST));
+//        squares[FIRST][SECOND].setPiece(whiteKnight1);
+//        squares[FIRST][SEVENTH].setPiece(whiteKnight2);
+//        whitePieces.add(whiteKnight1);
+//        whitePieces.add(whiteKnight2);
 
         //Add the white king to the first rank
-        King whiteKing = new King(Colour.WHITE, new Coordinate(FOURTH, FIRST));
+        whiteKing = new King(Colour.WHITE, new Coordinate(FOURTH, FIRST));
         squares[FIRST][FOURTH].setPiece(whiteKing);
-        whitePieces.add(whiteKing);
 
-        //Add the white queen to the first rank
-        Queen whiteQueen = new Queen(Colour.WHITE, new Coordinate(FIFTH, FIRST));
-        squares[FIRST][FIFTH].setPiece(whiteQueen);
-        whitePieces.add(whiteQueen);
+//        //Add the white queen to the first rank
+//        Queen whiteQueen = new Queen(Colour.WHITE, new Coordinate(FIFTH, FIRST));
+//        squares[FIRST][FIFTH].setPiece(whiteQueen);
+//        whitePieces.add(whiteQueen);
     }
 
     public Square getSquareAt(Coordinate coordinate)
@@ -171,4 +174,11 @@ public class Board {
         return blackPieces;
     }
 
+    public King getBlackKing() {
+        return blackKing;
+    }
+
+    public King getWhiteKing() {
+        return whiteKing;
+    }
 }

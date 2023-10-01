@@ -4,6 +4,7 @@ import chess.engine.Board.Board;
 import chess.engine.Colour;
 import chess.engine.Coordinate;
 import chess.engine.Moves.Move;
+import chess.engine.Moves.normalMove;
 import chess.engine.Pieces.Piece;
 
 import java.util.ArrayList;
@@ -31,18 +32,19 @@ public abstract class slidingPiece extends Piece {
             {
                 if (!board.getSquareAt(possibleCoordinate).isOccupied()) //if no piece at the tile with possibleCoordinate, this is a legal move
                 {
-                    legalMoves.add(new Move(board, this, possibleCoordinate));
+                    legalMoves.add(new normalMove(board, this, null, this.coordinate, possibleCoordinate));
                 }
                 else {//if there is a piece at the tile with possibleCoordinate
                     if (this.colour != board.getSquareAt(possibleCoordinate).getPiece().getColour())
                     {
-                        legalMoves.add(new Move(board, this, possibleCoordinate));
+                        legalMoves.add(new normalMove(board, this, board.getSquareAt(possibleCoordinate).getPiece(), this.coordinate, possibleCoordinate));
                     }//if not own colour, add the move, and don't look further. (cannot move through other pieces)
                     break;
                 }
                 possibleCoordinate = possibleCoordinate.add(possibleMove);//move one square in the current direction
             }
         }
+        removeInvalidMoves(legalMoves, board, this.colour);
         return legalMoves;
     }
     protected boolean canAttackSquareOnDiagonal(Board board, Coordinate squarePosition)

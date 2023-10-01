@@ -2,28 +2,33 @@ package chess.engine.Moves;
 
 
 import chess.engine.Board.Board;
+import chess.engine.Colour;
 import chess.engine.Coordinate;
 import chess.engine.Pieces.*;
 
-public class Move {
-    private final Board board;
-    private final Piece piece;
-    private final Coordinate endingCoordinate;
+public abstract class Move {
+    protected final Board board;
+    protected final Piece movingPiece;
+    protected final Piece capturedPiece;
+    protected final Coordinate endingCoordinate;
+    protected final Coordinate initialCoordinate;
 
-    public Move(Board board, Piece piece, Coordinate endingCoordinate)
+    public Move(Board board, Piece movingPiece, Piece capturedPiece, Coordinate initialCoordinate, Coordinate endingCoordinate)
     {
         this.board = board;
-        this.piece = piece;
+        this.movingPiece = movingPiece;
+        this.capturedPiece = capturedPiece;
+        this.initialCoordinate = initialCoordinate;
         this.endingCoordinate = endingCoordinate;
     }//constructor for non-capture move
 
 
-    public Piece getPiece() {
-        return piece;
+    public Piece getMovingPiece() {
+        return movingPiece;
     }
     public Coordinate initialCoordinate()
     {
-        return piece.getCoordinate();
+        return initialCoordinate;
     }//initial coordinate of the piece which is making a move
     public Coordinate getEndingCoordinate()
     {
@@ -31,25 +36,33 @@ public class Move {
     }//ending coordinate of the piece
     public boolean isCapture()
     {
-        return (getEndingPiece() != null && (getEndingPiece().getColour() != piece.getColour()));
+        return (getEndingPiece() != null && (getEndingPiece().getColour() != movingPiece.getColour()));
     }//is this a capture move?
 
     public Piece getEndingPiece()
     {
-        return (board.getSquareAt(endingCoordinate).getPiece());
+        return (capturedPiece);
     }//get the piece at the ending coordinate
+
+    public Colour getMovingPieceColour()
+    {
+        return movingPiece.getColour();
+    }
+
+    public abstract void makeMove();
+    public abstract void unMakeMove();
 
     @Override
     public String toString()
     {
         String move = "";
-        if (piece instanceof Pawn)
+        if (movingPiece instanceof Pawn)
         {
-            move += piece.getCoordinate().fileToString();
+            move += movingPiece.getCoordinate().fileToString();
         }//if a pawn move, use the file letter
         else
         {
-            move += piece.toString();
+            move += movingPiece.toString();
         }//otherwise use the piece
         if (isCapture())
         {
