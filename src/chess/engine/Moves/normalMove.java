@@ -8,7 +8,6 @@ public class normalMove extends Move{
     public normalMove(Board board, Piece movingPiece, Piece capturedPiece, Coordinate initialCoordinate, Coordinate endingCoordinate) {
         super(board, movingPiece, capturedPiece, initialCoordinate, endingCoordinate);
     }
-
     @Override
     public void makeMove()
     {
@@ -18,7 +17,6 @@ public class normalMove extends Move{
         board.getSquareAt(getEndingCoordinate()).setPiece(getMovingPiece());//move the current to the ending position
         getMovingPiece().setCoordinate(getEndingCoordinate());//update the moving pieces coordinate
     }
-
 
     @Override
     public void unMakeMove()
