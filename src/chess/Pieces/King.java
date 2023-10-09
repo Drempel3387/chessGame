@@ -1,11 +1,11 @@
-package chess.engine.Pieces;
+package chess.Pieces;
 
-import chess.engine.Board.Board;
-import chess.engine.Moves.Move;
-import chess.engine.Colour;
-import chess.engine.Coordinate;
-import chess.engine.Moves.castleMove;
-import chess.engine.Pieces.PieceMoveType.steppingPiece;
+import chess.Board.Board;
+import chess.Moves.Move;
+import chess.Colour;
+import chess.Coordinate;
+import chess.Moves.castleMove;
+import chess.Pieces.PieceMoveType.steppingPiece;
 
 import java.util.List;
 

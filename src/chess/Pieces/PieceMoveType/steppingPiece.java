@@ -1,11 +1,11 @@
-package chess.engine.Pieces.PieceMoveType;
+package chess.Pieces.PieceMoveType;
 
-import chess.engine.Board.Board;
-import chess.engine.Colour;
-import chess.engine.Coordinate;
-import chess.engine.Moves.Move;
-import chess.engine.Moves.normalMove;
-import chess.engine.Pieces.Piece;
+import chess.Board.Board;
+import chess.Moves.Move;
+import chess.Pieces.Piece;
+import chess.Colour;
+import chess.Coordinate;
+import chess.Moves.normalMove;
 
 import java.util.ArrayList;
 import java.util.List;

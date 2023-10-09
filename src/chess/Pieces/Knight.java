@@ -1,12 +1,11 @@
-package chess.engine.Pieces;
+package chess.Pieces;
 
-import chess.engine.Moves.Move;
-import chess.engine.Board.Board;
-import chess.engine.Colour;
-import chess.engine.Coordinate;
-import chess.engine.Pieces.PieceMoveType.steppingPiece;
+import chess.Moves.Move;
+import chess.Board.Board;
+import chess.Colour;
+import chess.Coordinate;
+import chess.Pieces.PieceMoveType.steppingPiece;
 
-import java.util.ArrayList;
 import java.util.List;
 public class Knight extends steppingPiece {
 

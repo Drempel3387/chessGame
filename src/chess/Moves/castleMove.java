@@ -1,8 +1,8 @@
-package chess.engine.Moves;
+package chess.Moves;
 
-import chess.engine.Board.Board;
-import chess.engine.Coordinate;
-import chess.engine.Pieces.Piece;
+import chess.Board.Board;
+import chess.Pieces.Piece;
+import chess.Coordinate;
 
 public class castleMove extends Move {
     private final int ONE_SQUARE = 1;

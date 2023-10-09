@@ -1,11 +1,6 @@
-package chess.engine.Board;
-import chess.engine.Colour;
-import chess.engine.Coordinate;
-import chess.engine.Moves.Move;
-import chess.engine.Pieces.*;
-
-import java.util.List;
-import java.util.Objects;
+package chess.Board;
+import chess.Coordinate;
+import chess.Pieces.Piece;
 
 public class Square {
     //private data members

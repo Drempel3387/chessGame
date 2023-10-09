@@ -1,10 +1,10 @@
-package chess.engine.Pieces;
+package chess.Pieces;
 
-import chess.engine.Board.Board;
-import chess.engine.Colour;
-import chess.engine.Coordinate;
-import chess.engine.Moves.Move;
-import chess.engine.Pieces.PieceMoveType.slidingPiece;
+import chess.Board.Board;
+import chess.Colour;
+import chess.Coordinate;
+import chess.Moves.Move;
+import chess.Pieces.PieceMoveType.slidingPiece;
 
 import java.util.List;
 

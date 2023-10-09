@@ -1,10 +1,12 @@
-package chess.engine.Moves;
+package chess.Moves;
 
 
-import chess.engine.Board.Board;
-import chess.engine.Colour;
-import chess.engine.Coordinate;
-import chess.engine.Pieces.*;
+import chess.Board.Board;
+import chess.Board.moveList;
+import chess.Colour;
+import chess.Coordinate;
+import chess.Pieces.Pawn;
+import chess.Pieces.Piece;
 
 public abstract class Move {
     protected final Board board;
@@ -47,6 +49,10 @@ public abstract class Move {
     public Colour getMovingPieceColour()
     {
         return movingPiece.getColour();
+    }
+    protected void addToMoveList(moveList MoveList)
+    {
+        MoveList.addMoveToList(this);
     }
 
     public abstract void makeMove();

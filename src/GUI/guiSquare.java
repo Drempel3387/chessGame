@@ -1,12 +1,12 @@
 package GUI;
 
 
-import chess.engine.Board.Board;
-import chess.engine.Board.Status;
-import chess.engine.Colour;
-import chess.engine.Coordinate;
-import chess.engine.Moves.Move;
-import chess.engine.Pieces.Piece;
+import chess.Board.Board;
+import chess.Board.Status;
+import chess.Colour;
+import chess.Coordinate;
+import chess.Moves.Move;
+import chess.Pieces.Piece;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -59,14 +59,16 @@ public class guiSquare extends JPanel {
                     for (Move move: MainFrame.getGuiBoard().getClickedOn().getLegalMoves(board)) {
                         if (move.getEndingCoordinate().areEqual(coordinate)) {
                             status = colour == Colour.WHITE? board.whiteTurn(move):board.blackTurn(move);
+                            break;
                         }
                     }
-                    MainFrame.getGuiBoard().resetBoardColors();
+                    MainFrame.getGuiBoard().updateBoard();
                     MainFrame.getGuiBoard().setClickedOn(null);
                     board.setStatus(status);
-                    MainFrame.getLeft().updateLeftPanel(board);
+                    MainFrame.getRight().updateRightPanel(board);
+                    board.print();
                 }
-                MainFrame.getGuiBoard().updateBoard();
+
             }
 
 
@@ -92,7 +94,6 @@ public class guiSquare extends JPanel {
         });
     }
 
-    // ... (existing methods remain unchanged)
 
     void highlightLegalMoves(Piece piece)
     {
@@ -131,7 +132,9 @@ public class guiSquare extends JPanel {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        JLabel pieceImage = new JLabel(new ImageIcon(myImage));
+        Image resizedImage = myImage.getScaledInstance(45, 45, Image.SCALE_SMOOTH);
+        ImageIcon icon = new ImageIcon(resizedImage);
+        JLabel pieceImage = new JLabel(icon);
         add(pieceImage);
     }
     Coordinate getCoordinate()

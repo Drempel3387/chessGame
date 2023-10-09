@@ -1,8 +1,10 @@
-package chess.engine.Board;
-import chess.engine.Colour;
-import chess.engine.Coordinate;
-import chess.engine.Moves.Move;
-import chess.engine.Pieces.*;
+package chess.Board;
+import chess.Moves.Move;
+import chess.Moves.normalMove;
+import chess.Moves.promotionMove;
+import chess.Pieces.*;
+import chess.Colour;
+import chess.Coordinate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +16,7 @@ public class Board {
     //lists of the pieces for white and black
     private final List<Piece> whitePieces = new ArrayList<>();
     private final List<Piece> blackPieces = new ArrayList<>();
+    private final moveList MoveList = new moveList(this);
 
     //black and white king
     private King whiteKing;
@@ -183,6 +186,10 @@ public class Board {
         System.out.println();
     }//print the entire board to the console
 
+    public moveList getMoveList() {
+        return MoveList;
+    }
+
     public List<Piece> getWhitePieces()
     {
         return whitePieces;
@@ -285,6 +292,8 @@ public class Board {
         //get list of allied pieces
         for (Piece piece: pieceList)
         {
+            if (!piece.getIsAlive())
+                continue;
             if (!piece.getLegalMoves(this).isEmpty())
                 return false;
         }

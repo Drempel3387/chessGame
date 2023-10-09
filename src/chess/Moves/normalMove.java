@@ -1,8 +1,8 @@
-package chess.engine.Moves;
+package chess.Moves;
 
-import chess.engine.Board.Board;
-import chess.engine.Coordinate;
-import chess.engine.Pieces.Piece;
+import chess.Board.Board;
+import chess.Pieces.Piece;
+import chess.Coordinate;
 
 public class normalMove extends Move{
     public normalMove(Board board, Piece movingPiece, Piece capturedPiece, Coordinate initialCoordinate, Coordinate endingCoordinate) {
@@ -22,15 +22,9 @@ public class normalMove extends Move{
     public void unMakeMove()
     {
         if (isCapture())
-        {
-            board.getSquareAt(getEndingCoordinate()).setPiece(getEndingPiece());//place the captured piece back on the board
             getEndingPiece().setIsAlive(true);//set status back to alive
-        }
-        else {
-            board.getSquareAt(getEndingCoordinate()).setPiece(null);
-        }
+        board.getSquareAt(getEndingCoordinate()).setPiece(getEndingPiece());//place the captured piece back on the board (if there is one, will be null otherwise)
         board.getSquareAt(initialCoordinate()).setPiece(getMovingPiece());
         getMovingPiece().setCoordinate(initialCoordinate());
-
     }
 }

@@ -1,9 +1,12 @@
-package chess.engine.Pieces;
+package chess.Pieces;
 
-import chess.engine.Board.Board;
-import chess.engine.Moves.Move;
-import chess.engine.Colour;
-import chess.engine.Coordinate;
+import chess.Board.Board;
+import chess.Moves.Move;
+import chess.Colour;
+import chess.Coordinate;
+import chess.Moves.enPassantMove;
+import chess.Moves.normalMove;
+import chess.Moves.promotionMove;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,13 +42,17 @@ public abstract class Piece {
     {
         King king = currentColour == Colour.WHITE? board.getWhiteKing(): board.getBlackKing();
         List<Move> illegalMoves = new ArrayList<>();
+
         for (Move move: moves)
         {
             move.makeMove();//make each current possible move
             if (king.isKingChecked(board))//if this move places the king into check, the piece is pinned
+            {
                 illegalMoves.add(move);
-
+            }
             move.unMakeMove();//return back to original position
+            if (move instanceof normalMove)
+                System.out.println(move.getEndingCoordinate());
         }
 
         for (Move move: illegalMoves)

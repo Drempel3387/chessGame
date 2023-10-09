@@ -1,4 +1,4 @@
-package chess.engine;
+package chess;
 
 final public class Player {
     private final Colour colour;

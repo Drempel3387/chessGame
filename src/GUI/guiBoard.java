@@ -1,12 +1,12 @@
 package GUI;
 
-import chess.engine.Board.Board;
-import chess.engine.Board.Square;
-import chess.engine.Colour;
-import chess.engine.Coordinate;
-import chess.engine.Pieces.Piece;
+import chess.Board.Board;
+import chess.Colour;
+import chess.Coordinate;
+import chess.Pieces.Piece;
 
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import java.awt.*;
 
 public class guiBoard extends JPanel {
@@ -22,7 +22,8 @@ public class guiBoard extends JPanel {
         this.board = board;
         this.MainFrame = MainFrame;
         setLayout(new GridLayout(RANKS, FILES));
-
+        setBackground(Color.decode("#F5F5F5"));
+        setBorder(BorderFactory.createLoweredBevelBorder());
         for (int rank = 0; rank < RANKS; rank++)
         {
             for (int file = 0; file < FILES; file++)
@@ -33,21 +34,14 @@ public class guiBoard extends JPanel {
                 add(square);
             }
         }
-        setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-    }
-    public void resetBoardColors() {
-        for (int i = 0; i < boardSquares.length; i++) {
-            for (int j = 0; j < boardSquares[i].length; j++) {
-                Colour squareColour = ((i+j)%2 == 0?Colour.WHITE:Colour.BLACK);
-                boardSquares[i][j].setSquareColour(squareColour);
-            }
-        }
     }
 
     public void updateBoard()
     {
         for (int i = 0; i < boardSquares.length; i++) {
             for (int j = 0; j < boardSquares[i].length; j++) {
+                Colour squareColour = ((i+j)%2 == 0?Colour.WHITE:Colour.BLACK);
+                boardSquares[i][j].setSquareColour(squareColour);
                 boardSquares[i][j].addPieceIconToSquare();
                 boardSquares[i][j].revalidate();
                 boardSquares[i][j].repaint();
