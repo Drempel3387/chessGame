@@ -15,8 +15,7 @@ public abstract class Move {
     protected final Coordinate endingCoordinate;//ending coordinate of the moving piece
     protected final Coordinate initialCoordinate;//starting coordinate of the moving piece
 
-    public Move(Board board, Piece movingPiece, Piece capturedPiece, Coordinate initialCoordinate, Coordinate endingCoordinate)
-    {
+    public Move(Board board, Piece movingPiece, Piece capturedPiece, Coordinate initialCoordinate, Coordinate endingCoordinate) {
         this.board = board;
         this.movingPiece = movingPiece;
         this.capturedPiece = capturedPiece;
@@ -25,60 +24,35 @@ public abstract class Move {
     }
 
 
-    public Piece getMovingPiece() {
-        return movingPiece;
-    }
-    public Coordinate initialCoordinate()
-    {
-        return initialCoordinate;
-    }//initial coordinate of the piece which is making a move
-    public Coordinate getEndingCoordinate()
-    {
-        return endingCoordinate;
-    }//ending coordinate of the piece
-    public boolean isCapture()
-    {
+    public Piece getMovingPiece() { return movingPiece; }
+    public Coordinate initialCoordinate() { return initialCoordinate; }//initial coordinate of the piece which is making a move
+    public Coordinate getEndingCoordinate() { return endingCoordinate; }//ending coordinate of the piece
+    public boolean isCapture() {
         return (getEndingPiece() != null && (getEndingPiece().getColour() != movingPiece.getColour()));
     }//is this a capture move?
 
-    public Piece getEndingPiece()
-    {
-        return (capturedPiece);
-    }//get the piece at the ending coordinate
+    public Piece getEndingPiece() { return (capturedPiece); }//get the piece at the ending coordinate
 
-    public Colour getMovingPieceColour()
-    {
-        return movingPiece.getColour();
-    }
-    protected void addToMoveList(moveList MoveList)
-    {
-        MoveList.addMoveToList(this);
-    }
+    public Colour getMovingPieceColour() { return movingPiece.getColour(); }
+    protected void addToMoveList(moveList MoveList) { MoveList.addMoveToList(this); }
 
     public abstract void makeMove();
     public abstract void unMakeMove();
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         String move = "";
-        if (!(movingPiece instanceof Pawn))
-        {
+        if (!(movingPiece instanceof Pawn)) {
             move += movingPiece.toString();
             if (multipleAttacking())
-            {
                 move += initialCoordinate.fileToString();
-            }
         }//otherwise use the piece
         if (movingPiece instanceof Pawn && isCapture())
-        {
             move+= initialCoordinate().fileToString();
-        }
 
-        if (isCapture())
-        {
+        if (isCapture()) //if a capturing move, add an x
             move += "x";
-        }//if a capturing move, add an x
+
         move +=  movingPiece.getCoordinate().fileToString();
         move += Board.RANKS- endingCoordinate.getRank();
         return move;
@@ -87,15 +61,11 @@ public abstract class Move {
 
     private boolean multipleAttacking() {
         for (Piece piece : movingPiece.getColour() == Colour.WHITE ? board.getWhitePieces() : board.getBlackPieces()) {
-            if (!piece.getIsAlive()) {
+            if (!piece.getIsAlive())
                 continue;
-            }
-            if (piece != movingPiece && piece.getClass().equals(movingPiece.getClass())) {
-                // Check if the pieces are of the same type (e.g., both rooks)
-                if (piece.canAttackSquare(board, endingCoordinate)) {
+            if (piece != movingPiece && piece.getClass().equals(movingPiece.getClass())) // Check if the pieces are of the same type (e.g., both rooks)
+                if (piece.canAttackSquare(board, endingCoordinate))
                     return true;
-                }
-            }
         }
         return false;
     }

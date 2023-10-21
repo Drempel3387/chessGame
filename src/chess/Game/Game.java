@@ -14,8 +14,6 @@ public class Game {
     private final moveList gameMoves;
     private Status status;
     private Colour currentPlayerColour;
-
-
     public Game(Board board) {
         this.board = board;
         this.gameMoves = new moveList();
@@ -69,9 +67,8 @@ public class Game {
                 continue;
             for (Move move : piece.getLegalMoves(board)) {
                 move.makeMove();
-                if (!king.isKingChecked(board)) {
+                if (!king.isKingChecked(board))
                     movesToPreventCheck.add(move);
-                }
                 move.unMakeMove();
             }//if a move will stop the check, add to the list
         }//any moves which are not king moves
@@ -83,9 +80,7 @@ public class Game {
     public boolean isCheckMate(Colour side) {
         King king = (side == Colour.WHITE? board.getWhiteKing(): board.getBlackKing());
         if (!king.isKingChecked(board))//if the king is not checked
-        {
             return false;
-        }
         return (preventCheckMoves(king, side).isEmpty());//no moves to prevent the check, so checkmate
     }
     public boolean isStaleMate(Colour side) {
@@ -93,17 +88,14 @@ public class Game {
         if (king.isKingChecked(board))//if the king is checked, it is not a stalemate
             return false;
         if (!king.getLegalMoves(board).isEmpty())//if the king does have moves, not a stalemate
-        {
             return false;
-        }
         return noMoreMoves(side, king);//if there are no more moves on the board for the current player, stalemate
     }
 
     private boolean noMoreMoves(Colour side, King king) {
         List<Piece> pieceList = (side == Colour.WHITE? board.getWhitePieces(): board.getBlackPieces());
         //get list of allied pieces
-        for (Piece piece: pieceList)
-        {
+        for (Piece piece: pieceList) {
             if (!piece.getIsAlive())
                 continue;
             if (!piece.getLegalMoves(board).isEmpty())

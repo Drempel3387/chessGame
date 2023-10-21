@@ -13,5 +13,4 @@ public class moveList {
     public Move getMoveAt(int number) { return gameMoves.get(number); }
     public int getNumberOfMoves() { return gameMoves.size(); }
     public void clear() { gameMoves.clear(); }
-
 }

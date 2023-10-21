@@ -9,8 +9,7 @@ public class normalMove extends Move{
         super(board, movingPiece, capturedPiece, initialCoordinate, endingCoordinate);
     }
     @Override
-    public void makeMove()
-    {
+    public void makeMove() {
         if (isCapture())
             board.getSquareAt(getEndingCoordinate()).getPiece().setIsAlive(false);//set the captured piece to dead
         board.getSquareAt(initialCoordinate()).setPiece(null);//square is now empty, null to signify
@@ -19,8 +18,7 @@ public class normalMove extends Move{
     }
 
     @Override
-    public void unMakeMove()
-    {
+    public void unMakeMove() {
         if (isCapture())
             getEndingPiece().setIsAlive(true);//set captured piece back to alive
         board.getSquareAt(getEndingCoordinate()).setPiece(getEndingPiece());//place the captured piece back on the board (if there is one, will be null otherwise)

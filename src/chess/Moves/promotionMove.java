@@ -19,12 +19,9 @@ public class promotionMove extends Move
     }
 
     @Override
-    public void makeMove()
-    {
+    public void makeMove() {
         if (isCapture())
-        {
             getEndingPiece().setIsAlive(false);//the captured piece is now "dead"
-        }
         board.getSquareAt(initialCoordinate()).setPiece(null);//square is now empty, null to signify
         movingPiece.setIsAlive(false);//The capturing pawn is now "dead" also given that it is turning into a queen
 
@@ -34,8 +31,7 @@ public class promotionMove extends Move
     }
 
     @Override
-    public void unMakeMove()
-    {
+    public void unMakeMove() {
         List<Piece> pieces = movingPiece.getColour() == Colour.WHITE? board.getWhitePieces(): board.getBlackPieces();
         pieces.remove(promotedPiece);//remove the queen from the list of active pieces
         if (isCapture())

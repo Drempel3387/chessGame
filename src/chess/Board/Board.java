@@ -12,19 +12,15 @@ import java.util.List;
 public class Board {
     //the actual "chess board" 8x8 array of Squares
     private final Square[][] squares = new Square[RANKS][FILES];
-
     //lists of the pieces for white and black
     private final List<Piece> whitePieces = new ArrayList<>();
     private final List<Piece> blackPieces = new ArrayList<>();
-
     //black and white king
     private King whiteKing;
     private King blackKing;
-
     //number of ranks and files
     public static final int FILES = 8;
     public static final int RANKS = 8;
-
     //rank and file numbers for the board
     public static final int FIRST = 7;
     public static int SECOND = 6;
@@ -34,9 +30,7 @@ public class Board {
     public static final int SIXTH = 2;
     public static final int SEVENTH = 1;
     public static final int EIGHTH = 0;
-
-    public Board()
-    {
+    public Board() {
         initSquares();
         initBlackPieces();
         initWhitePieces();
@@ -50,15 +44,11 @@ public class Board {
         initBlackPieces();
         initWhitePieces();
     }
-    private void initSquares()
-    {
+    private void initSquares() {
         for (int rank = 0; rank < RANKS; rank++)
-        {
             for (int file = 0; file < FILES; file++)
-            {
                 squares[rank][file] = new Square(new Coordinate(file, RANKS - rank - 1), null);
-            }//initialize each squares in the array with the correct coordinate, and no Piece yet
-        }
+            //initialize each squares in the array with the correct coordinate, and no Piece yet
     }//a square with a null piece signifies it is empty
     private void initBlackPieces() {
         for (int i = 0; i < FILES; i++) {
@@ -140,58 +130,27 @@ public class Board {
         squares[FIRST][FIFTH].setPiece(whiteQueen);
         whitePieces.add(whiteQueen);
     }
-
-    public Square getSquareAt(Coordinate coordinate)
-    {
-        return (squares[coordinate.getRank()][coordinate.getFile()]);
-    }//return the tile at a specific coordinate
-
+    public Square getSquareAt(Coordinate coordinate) { return (squares[coordinate.getRank()][coordinate.getFile()]); }//return the tile at a specific coordinate
     public Square[][] getSquares() {
         return squares;
     }//return the entire board
 
-    public void print()
-    {
-        for (int i = 0; i < RANKS; i++)
-        {
+    public void print() {
+        for (int i = 0; i < RANKS; i++) {
             System.out.print(" " + (RANKS - i));
-            for (int j = 0; j < FILES; j++)
-            {
-                try {
-                    System.out.print(" " + squares[i][j].getPiece().toString());
-                }
-                catch(NullPointerException e)
-                {
-                    System.out.print(" E");
-                }
-
+            for (int j = 0; j < FILES; j++) {
+                try { System.out.print(" " + squares[i][j].getPiece().toString()); }
+                catch(NullPointerException e) { System.out.print(" E");}
             }
             System.out.println();
         }
         System.out.print("  ");
         for (int i = 0; i < 8; i++)
-        {
             System.out.print(" " + (char)(Coordinate.STARTING_FILE + i));
-        }
         System.out.println();
     }//print the entire board to the console
-
-    public List<Piece> getWhitePieces()
-    {
-        return whitePieces;
-    }
-
-    public List<Piece> getBlackPieces()
-    {
-        return blackPieces;
-    }
-
-    public King getBlackKing() {
-        return blackKing;
-    }
-
-    public King getWhiteKing() {
-        return whiteKing;
-    }
-
+    public List<Piece> getWhitePieces() { return whitePieces; }
+    public List<Piece> getBlackPieces() { return blackPieces; }
+    public King getBlackKing() { return blackKing; }
+    public King getWhiteKing() { return whiteKing; }
 }

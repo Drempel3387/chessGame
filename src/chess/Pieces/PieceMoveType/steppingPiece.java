@@ -18,29 +18,23 @@ This function does not cover edge cases for the King and Pawn moves, it is simpl
 to remove duplicate code.
 */
 public abstract class steppingPiece extends Piece {
-    public steppingPiece(Colour colour, Coordinate coordinate) {
-        super(colour, coordinate);
-    }
+    public steppingPiece(Colour colour, Coordinate coordinate) { super(colour, coordinate); }
 
     protected List<Move> getPseudoLegalMoves(Board board, Coordinate[] POSSIBLE_MOVES) {
         Coordinate possibleCoordinate;//candidate move
         List<Move> legalMoves = new ArrayList<>();//list of all legal moves
 
         for (Coordinate possibleMove : POSSIBLE_MOVES) {
-            possibleCoordinate = this.coordinate.add(possibleMove);//see if the current coordinate + the possibleMove is within the board
+            possibleCoordinate = getCoordinate().add(possibleMove);//see if the current coordinate + the possibleMove is within the board
             if (possibleCoordinate.isValid()) {
                 if (!board.getSquareAt(possibleCoordinate).isOccupied())//if tile not occupied
-                {
-                    legalMoves.add(new normalMove(board, this, null, this.coordinate, possibleCoordinate));
-                }
+                    legalMoves.add(new normalMove(board, this, null, getCoordinate(), possibleCoordinate));
                 else//if occupied
-                {
-                    if (board.getSquareAt(possibleCoordinate).getPiece().getColour() != this.colour)//if the colour of the piece at the destination is not the current pieces colour
-                        legalMoves.add(new normalMove(board, this, board.getSquareAt(possibleCoordinate).getPiece(), this.coordinate, possibleCoordinate));
-                }
+                    if (board.getSquareAt(possibleCoordinate).getPiece().getColour() != getColour())//if the colour of the piece at the destination is not the current pieces colour
+                        legalMoves.add(new normalMove(board, this, board.getSquareAt(possibleCoordinate).getPiece(), getCoordinate(), possibleCoordinate));
             }
         }
-        removeInvalidMoves(legalMoves, board, this.colour);
+        removeInvalidMoves(legalMoves, board, getColour());
         return legalMoves;
     }
      public boolean steppingPieceCanAttackSquare(Board board, Coordinate squarePosition, Coordinate[] POSSIBLE_MOVES)
@@ -53,15 +47,14 @@ public abstract class steppingPiece extends Piece {
 
         double distanceBetween = squarePosition.distance(this.getCoordinate());
         //distance between the current piece and the square to check
-        double attackReach = this.coordinate.distance(this.coordinate.add(POSSIBLE_MOVES[0]));
+        double attackReach = getCoordinate().distance(getCoordinate().add(POSSIBLE_MOVES[0]));
         //the reach of a piece "How far they can attack"
 
         if (distanceBetween > attackReach)
             return false;
 
-        for (Coordinate possibleMove: POSSIBLE_MOVES)
-        {
-            if (this.coordinate.add(possibleMove).areEqual(squarePosition))
+        for (Coordinate possibleMove: POSSIBLE_MOVES) {
+            if (getCoordinate().add(possibleMove).areEqual(squarePosition))
                 return true;
             //if the current position of the square plus a valid move lands on the target square,
             //the piece can attack the square

@@ -12,50 +12,35 @@ import java.util.List;
 
 public class King extends steppingPiece {
     private final Coordinate[] CASTLE_CHECK_MOVES = {
-            new Coordinate(1, 0), new Coordinate(-1, 0)
-    };
+            new Coordinate(1, 0), new Coordinate(-1, 0) };
     private final Coordinate[] POSSIBLE_MOVES = {
             new Coordinate(1, 1), new Coordinate(1, -1),
             new Coordinate(-1, 1), new Coordinate(-1, -1),
             new Coordinate(1, 0), new Coordinate(0, 1),
-            new Coordinate(-1, 0), new Coordinate(0, -1)
-    };//possible moves for each diagonal, and straight direction
-    public King(Colour colour, Coordinate coordinate) {
-        super(colour, coordinate);
-    }
-
+            new Coordinate(-1, 0), new Coordinate(0, -1) };//possible moves for each diagonal, and straight direction
+    public King(Colour colour, Coordinate coordinate) { super(colour, coordinate); }
     @Override
-    public List<Move> getLegalMoves(Board board)//extension of base logic for stepping piece, must account for checks, castling, etc
-    {
+    public List<Move> getLegalMoves(Board board) { //extension of base logic for stepping piece, must account for checks, castling, etc
         List<Move> legalMoves = getPseudoLegalMoves(board, POSSIBLE_MOVES);
         getCastleMoves(board, legalMoves);
-
         return legalMoves;
     }
-
     @Override
     public boolean canAttackSquare(Board board, Coordinate squarePosition) {
         return steppingPieceCanAttackSquare(board, squarePosition, POSSIBLE_MOVES);
     }
-
-    private void getCastleMoves(Board board, List<Move> allLegalMoves)
-    {
+    private void getCastleMoves(Board board, List<Move> allLegalMoves) {
         if (isKingChecked(board))
             return;
-        if (getHasMoved())//no reason to look for castle moves if the king has already moved
-            return;
-        Coordinate currentSquareCoord, startingCoordinate = this.coordinate;
-        for (Coordinate coordinate: CASTLE_CHECK_MOVES)
-        {
-            this.coordinate = startingCoordinate;
-            currentSquareCoord = this.coordinate.add(coordinate);
-            while (currentSquareCoord.isValid())
-            {
-                this.coordinate = currentSquareCoord;
+        Coordinate currentSquareCoord, startingCoordinate = getCoordinate();
+        for (Coordinate coordinate: CASTLE_CHECK_MOVES) {
+            setCoordinate(startingCoordinate);
+            currentSquareCoord = getCoordinate().add(coordinate);
+            while (currentSquareCoord.isValid()) {
+                setCoordinate(currentSquareCoord);
                 if (board.getSquareAt(currentSquareCoord).isOccupied()) {
                     Piece piece = board.getSquareAt(currentSquareCoord).getPiece();
-                    if (piece instanceof Rook && !piece.getHasMoved() && piece.getColour() == this.colour)
-                    {
+                    if (piece instanceof Rook && piece.getColour() == getColour()) {
                         if (coordinate.areEqual(new Coordinate(1, 0)))
                             allLegalMoves.add(new castleMove(board, this, piece,startingCoordinate,currentSquareCoord.add(coordinate.multiply(-1))));
                         else
@@ -73,24 +58,21 @@ public class King extends steppingPiece {
                 currentSquareCoord = currentSquareCoord.add(coordinate);
             }
         }
-        this.coordinate = startingCoordinate;
+        setCoordinate(startingCoordinate);
     }
 
-    public boolean isKingChecked(Board board)
-    {
-        List<Piece> pieces = (this.colour == Colour.WHITE? board.getBlackPieces(): board.getWhitePieces());
+    public boolean isKingChecked(Board board) {
+        List<Piece> pieces = (getColour() == Colour.WHITE? board.getBlackPieces(): board.getWhitePieces());
         for (Piece piece: pieces) {
-            if (!piece.isAlive)
+            if (!piece.getIsAlive())
                 continue;
-            if (piece.canAttackSquare(board, this.coordinate))
+            if (piece.canAttackSquare(board, getCoordinate()))
                 return true;
         }
         return false;
     }
 
     @Override
-    public String toString() {
-        return "K";
-    }
+    public String toString() { return "K"; }
 
 }

@@ -15,25 +15,13 @@ public class Queen extends slidingPiece {
             new Coordinate(1, 1), new Coordinate(1, -1),
             new Coordinate(-1, 1), new Coordinate(-1, -1)
     };
-    public Queen(Colour colour, Coordinate coordinate) {
-        super(colour, coordinate);
-    }
-
+    public Queen(Colour colour, Coordinate coordinate) { super(colour, coordinate); }
     @Override
-    public List<Move> getLegalMoves(Board board) {
-        return getPseudoLegalMoves(board, POSSIBLE_MOVES);
-    }
-
+    public List<Move> getLegalMoves(Board board) { return getPseudoLegalMoves(board, POSSIBLE_MOVES); }
     @Override
     public boolean canAttackSquare(Board board, Coordinate squarePosition) {
         return (canAttackSquareOnFileOrRank(board, squarePosition) || canAttackSquareOnDiagonal(board, squarePosition));
     }
-
     @Override
-    public String toString() {
-        return "Q";
-    }
-
-
-
+    public String toString() { return "Q"; }
 }

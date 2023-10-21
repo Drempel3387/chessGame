@@ -10,7 +10,6 @@ public class castleMove extends Move {
     public castleMove(Board board, Piece movingPiece, Piece capturedPiece, Coordinate initialCoordinate, Coordinate endingCoordinate) {
         super(board, movingPiece, capturedPiece, initialCoordinate, endingCoordinate);
     }
-
     @Override
     public void makeMove() {
         board.getSquareAt(initialCoordinate()).setPiece(null);//set pieces at previous squares of rook and king to null
@@ -40,9 +39,7 @@ public class castleMove extends Move {
         movingPiece.setCoordinate(initialCoordinate());
 
         if (initialCoordinate.getFile() - endingCoordinate.getFile() < ZERO)//negative is king-side castling
-        {
             getEndingPiece().setCoordinate(new Coordinate(Board.FIRST, getEndingPiece().getCoordinate().getRank()));
-        }
         else
             getEndingPiece().setCoordinate(new Coordinate(Board.EIGHTH, getEndingPiece().getCoordinate().getRank()));
         board.getSquareAt(getEndingPiece().getCoordinate()).setPiece(getEndingPiece());
@@ -51,9 +48,7 @@ public class castleMove extends Move {
     public String toString()
     {
         if (initialCoordinate.getFile() - endingCoordinate.getFile() < 0)
-        {
             return "O-O";
-        }
         return "O-O-O";
     }
 }
