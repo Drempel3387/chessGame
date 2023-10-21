@@ -2,7 +2,8 @@ package GUI;
 
 
 import chess.Board.Board;
-import chess.Board.Status;
+import chess.Game.Game;
+import chess.Game.Status;
 import chess.Colour;
 import chess.Coordinate;
 import chess.Moves.Move;
@@ -19,15 +20,15 @@ import java.io.IOException;
 
 public class guiSquare extends JPanel {
     private final Coordinate coordinate;//coordinate associated with the square
-    private final Board board;
+    private final Game game;
     private final mainFrame MainFrame;
     private final Dimension SQUARE_SIZE = new Dimension(20, 20);//size of the square
     private final Colour colour;
 
-    public guiSquare(Coordinate coordinate, Board board, mainFrame MainFrame, Colour colour)
+    public guiSquare(Coordinate coordinate, Game game, mainFrame MainFrame, Colour colour)
     {
         this.coordinate = coordinate;
-        this.board = board;
+        this.game = game;
         this.colour = colour;
         this.MainFrame = MainFrame;
 
@@ -44,29 +45,30 @@ public class guiSquare extends JPanel {
         addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (board.getSquareAt(coordinate).isOccupied() && MainFrame.getGuiBoard().getClickedOn() == null)
+                if (game.getBoard().getSquareAt(coordinate).isOccupied() && MainFrame.getGuiBoard().getClickedOn() == null)
                 {
-                    Piece clickedPiece = board.getSquareAt(coordinate).getPiece();
-                    if (clickedPiece.getColour() != board.getCurrentPlayerColour())
+                    Piece clickedPiece = game.getBoard().getSquareAt(coordinate).getPiece();
+                    if (clickedPiece.getColour() != game.getCurrentPlayerColour())
                         return;
                     MainFrame.getGuiBoard().setClickedOn(clickedPiece);
                     highlightLegalMoves(clickedPiece);
                 }
                 else if (MainFrame.getGuiBoard().getClickedOn() != null)
                 {
-                    Colour colour = board.getCurrentPlayerColour();
+                    Colour colour = game.getCurrentPlayerColour();
                     Status status = Status.ACTIVE;
-                    for (Move move: MainFrame.getGuiBoard().getClickedOn().getLegalMoves(board)) {
+                    for (Move move: MainFrame.getGuiBoard().getClickedOn().getLegalMoves(game.getBoard())) {
                         if (move.getEndingCoordinate().areEqual(coordinate)) {
-                            status = colour == Colour.WHITE? board.whiteTurn(move):board.blackTurn(move);
+                            status = colour == Colour.WHITE? game.whiteTurn(move):game.blackTurn(move);
+                            MainFrame.getRight().getListPanel().addMove(move);
                             break;
                         }
                     }
                     MainFrame.getGuiBoard().updateBoard();
                     MainFrame.getGuiBoard().setClickedOn(null);
-                    board.setStatus(status);
-                    MainFrame.getRight().updateRightPanel(board);
-                    board.print();
+
+                    game.setStatus(status);
+                    MainFrame.getRight().updateRightPanel(game.getBoard());
                 }
 
             }
@@ -97,7 +99,7 @@ public class guiSquare extends JPanel {
 
     void highlightLegalMoves(Piece piece)
     {
-        for (Move move: piece.getLegalMoves(board))
+        for (Move move: piece.getLegalMoves(game.getBoard()))
         {
             MainFrame.getGuiBoard().getBoardSquares()[move.getEndingCoordinate().getRank()][move.getEndingCoordinate().getFile()].setBackground(Color.red);
         }//highlight the legal move squares
@@ -114,17 +116,17 @@ public class guiSquare extends JPanel {
     public void addPieceIconToSquare()
     {
         removeAll();
-        if (!board.getSquareAt(getCoordinate()).isOccupied())
+        if (!game.getBoard().getSquareAt(getCoordinate()).isOccupied())
             return;
 
         String filePath = "C:\\Users\\Devon\\IdeaProjects\\chessGame\\PiecePictures\\";
 
-        if (board.getSquareAt(getCoordinate()).getPiece().getColour() == Colour.WHITE)
+        if (game.getBoard().getSquareAt(getCoordinate()).getPiece().getColour() == Colour.WHITE)
             filePath += "W";
         else
             filePath += "B";
 
-        filePath += board.getSquareAt(getCoordinate()).getPiece().toString();
+        filePath += game.getBoard().getSquareAt(getCoordinate()).getPiece().toString();
         filePath += ".png";
         BufferedImage myImage;
         try {

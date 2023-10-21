@@ -1,4 +1,4 @@
-package chess.Board;
+package chess.Game;
 
 public enum Status {
     BLACK_WIN,

@@ -40,6 +40,8 @@ public class King extends steppingPiece {
 
     private void getCastleMoves(Board board, List<Move> allLegalMoves)
     {
+        if (isKingChecked(board))
+            return;
         if (getHasMoved())//no reason to look for castle moves if the king has already moved
             return;
         Coordinate currentSquareCoord, startingCoordinate = this.coordinate;
@@ -52,7 +54,7 @@ public class King extends steppingPiece {
                 this.coordinate = currentSquareCoord;
                 if (board.getSquareAt(currentSquareCoord).isOccupied()) {
                     Piece piece = board.getSquareAt(currentSquareCoord).getPiece();
-                    if (piece instanceof Rook && !piece.getHasMoved())
+                    if (piece instanceof Rook && !piece.getHasMoved() && piece.getColour() == this.colour)
                     {
                         if (coordinate.areEqual(new Coordinate(1, 0)))
                             allLegalMoves.add(new castleMove(board, this, piece,startingCoordinate,currentSquareCoord.add(coordinate.multiply(-1))));

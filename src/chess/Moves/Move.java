@@ -2,18 +2,18 @@ package chess.Moves;
 
 
 import chess.Board.Board;
-import chess.Board.moveList;
+import chess.Game.moveList;
 import chess.Colour;
 import chess.Coordinate;
 import chess.Pieces.Pawn;
 import chess.Pieces.Piece;
 
 public abstract class Move {
-    protected final Board board;
-    protected final Piece movingPiece;
-    protected final Piece capturedPiece;
-    protected final Coordinate endingCoordinate;
-    protected final Coordinate initialCoordinate;
+    protected final Board board;//board which the move will be made on
+    protected final Piece movingPiece;//the piece which will be moving
+    protected final Piece capturedPiece;//the piece which is being captured, if there is one
+    protected final Coordinate endingCoordinate;//ending coordinate of the moving piece
+    protected final Coordinate initialCoordinate;//starting coordinate of the moving piece
 
     public Move(Board board, Piece movingPiece, Piece capturedPiece, Coordinate initialCoordinate, Coordinate endingCoordinate)
     {
@@ -22,7 +22,7 @@ public abstract class Move {
         this.capturedPiece = capturedPiece;
         this.initialCoordinate = initialCoordinate;
         this.endingCoordinate = endingCoordinate;
-    }//constructor for non-capture move
+    }
 
 
     public Piece getMovingPiece() {
@@ -62,23 +62,42 @@ public abstract class Move {
     public String toString()
     {
         String move = "";
-        if (movingPiece instanceof Pawn)
-        {
-            move += movingPiece.getCoordinate().fileToString();
-        }//if a pawn move, use the file letter
-        else
+        if (!(movingPiece instanceof Pawn))
         {
             move += movingPiece.toString();
+            if (multipleAttacking())
+            {
+                move += initialCoordinate.fileToString();
+            }
         }//otherwise use the piece
+        if (movingPiece instanceof Pawn && isCapture())
+        {
+            move+= initialCoordinate().fileToString();
+        }
+
         if (isCapture())
         {
             move += "x";
-        }//if a capturing move, add an x, if the piece being c
-
-        move += getEndingCoordinate().fileToString();
-        move += endingCoordinate.getRank() + 1;
+        }//if a capturing move, add an x
+        move +=  movingPiece.getCoordinate().fileToString();
+        move += Board.RANKS- endingCoordinate.getRank();
         return move;
     }
+    //will turn a move into it's string representation.
 
+    private boolean multipleAttacking() {
+        for (Piece piece : movingPiece.getColour() == Colour.WHITE ? board.getWhitePieces() : board.getBlackPieces()) {
+            if (!piece.getIsAlive()) {
+                continue;
+            }
+            if (piece != movingPiece && piece.getClass().equals(movingPiece.getClass())) {
+                // Check if the pieces are of the same type (e.g., both rooks)
+                if (piece.canAttackSquare(board, endingCoordinate)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
 }

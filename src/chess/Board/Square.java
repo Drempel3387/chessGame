@@ -7,8 +7,7 @@ public class Square {
     protected final Coordinate coordinate;//location of the Square
     protected Piece piece;//piece at the square
 
-    public Square(final Coordinate coordinate, Piece piece)
-    {
+    public Square(final Coordinate coordinate, Piece piece) {
         this.coordinate = coordinate;
         this.piece = piece;
     }//construct a Square

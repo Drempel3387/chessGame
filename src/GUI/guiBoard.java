@@ -3,6 +3,7 @@ package GUI;
 import chess.Board.Board;
 import chess.Colour;
 import chess.Coordinate;
+import chess.Game.Game;
 import chess.Pieces.Piece;
 
 import javax.swing.*;
@@ -13,13 +14,13 @@ public class guiBoard extends JPanel {
     private final int RANKS = 8;
     private final int FILES = 8;
     private final mainFrame MainFrame;
-    private final Board board;
+    private final Game game;
     private Piece clickedOn;
     private final guiSquare[][] boardSquares = new guiSquare[RANKS][FILES];
 
-    public guiBoard(Board board, mainFrame MainFrame)
+    public guiBoard(Game game, mainFrame MainFrame)
     {
-        this.board = board;
+        this.game = game;
         this.MainFrame = MainFrame;
         setLayout(new GridLayout(RANKS, FILES));
         setBackground(Color.decode("#F5F5F5"));
@@ -29,7 +30,7 @@ public class guiBoard extends JPanel {
             for (int file = 0; file < FILES; file++)
             {
                 Colour squareColour = ((rank+file)%2 == 0?Colour.WHITE:Colour.BLACK);
-                guiSquare square  = new guiSquare(new Coordinate(file ,  rank), board, MainFrame ,squareColour);
+                guiSquare square  = new guiSquare(new Coordinate(file ,  rank), game, MainFrame ,squareColour);
                 boardSquares[rank][file] = square;
                 add(square);
             }
@@ -62,8 +63,7 @@ public class guiBoard extends JPanel {
         this.clickedOn = clickedOn;
     }
 
-    public Board getBackendBoard()
-    {
-        return board;
+    public Board getBackendBoard() {
+        return game.getBoard();
     }
 }

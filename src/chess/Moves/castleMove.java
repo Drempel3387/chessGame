@@ -41,10 +41,19 @@ public class castleMove extends Move {
 
         if (initialCoordinate.getFile() - endingCoordinate.getFile() < ZERO)//negative is king-side castling
         {
-            getEndingPiece().getCoordinate().setFile(Board.FIRST);
+            getEndingPiece().setCoordinate(new Coordinate(Board.FIRST, getEndingPiece().getCoordinate().getRank()));
         }
         else
-            getEndingPiece().getCoordinate().setFile(Board.EIGHTH);
+            getEndingPiece().setCoordinate(new Coordinate(Board.EIGHTH, getEndingPiece().getCoordinate().getRank()));
         board.getSquareAt(getEndingPiece().getCoordinate()).setPiece(getEndingPiece());
+    }
+
+    public String toString()
+    {
+        if (initialCoordinate.getFile() - endingCoordinate.getFile() < 0)
+        {
+            return "O-O";
+        }
+        return "O-O-O";
     }
 }

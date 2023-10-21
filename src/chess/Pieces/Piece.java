@@ -51,8 +51,6 @@ public abstract class Piece {
                 illegalMoves.add(move);
             }
             move.unMakeMove();//return back to original position
-            if (move instanceof normalMove)
-                System.out.println(move.getEndingCoordinate());
         }
 
         for (Move move: illegalMoves)

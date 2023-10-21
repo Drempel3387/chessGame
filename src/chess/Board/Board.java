@@ -1,7 +1,7 @@
 package chess.Board;
+import chess.Game.Status;
+import chess.Game.moveList;
 import chess.Moves.Move;
-import chess.Moves.normalMove;
-import chess.Moves.promotionMove;
 import chess.Pieces.*;
 import chess.Colour;
 import chess.Coordinate;
@@ -16,17 +16,10 @@ public class Board {
     //lists of the pieces for white and black
     private final List<Piece> whitePieces = new ArrayList<>();
     private final List<Piece> blackPieces = new ArrayList<>();
-    private final moveList MoveList = new moveList(this);
 
     //black and white king
     private King whiteKing;
     private King blackKing;
-
-    //status of the current board (checkmate? stalemate?, active?)
-    private Status status;
-
-    //is it currently whites turn to play?
-    private Colour currentPlayerColour;
 
     //number of ranks and files
     public static final int FILES = 8;
@@ -44,21 +37,18 @@ public class Board {
 
     public Board()
     {
-        currentPlayerColour = Colour.WHITE;
         initSquares();
         initBlackPieces();
         initWhitePieces();
     }
 
     public void reset() {
-        currentPlayerColour = Colour.WHITE;
         // Clear the lists to remove any existing pieces
         whitePieces.clear();
         blackPieces.clear();
         initSquares();
         initBlackPieces();
         initWhitePieces();
-        status = Status.ACTIVE;
     }
     private void initSquares()
     {
@@ -186,10 +176,6 @@ public class Board {
         System.out.println();
     }//print the entire board to the console
 
-    public moveList getMoveList() {
-        return MoveList;
-    }
-
     public List<Piece> getWhitePieces()
     {
         return whitePieces;
@@ -208,100 +194,4 @@ public class Board {
         return whiteKing;
     }
 
-    public Status getStatus() {return status;}
-    public void updateStatus(Status status) {this.status = status;}
-
-    public Colour getCurrentPlayerColour()
-    {
-        return currentPlayerColour;
-    }
-
-    public void setCurrentPlayerColour(Colour currentPlayerColour)
-    {
-        this.currentPlayerColour = currentPlayerColour;
-    }
-
-
-    private List<Move> preventCheckMoves(King king, Colour side) {
-        List<Piece> pieces = side == Colour.WHITE ? getWhitePieces() : getBlackPieces();
-        List<Move> movesToPreventCheck = new ArrayList<>();
-
-        for (Piece piece : pieces) {
-            if (!piece.getIsAlive())//if piece is not alive, skip
-                continue;
-            for (Move move : piece.getLegalMoves(this)) {
-                move.makeMove();
-                if (!king.isKingChecked(this)) {
-                    movesToPreventCheck.add(move);
-                }
-                move.unMakeMove();
-            }//if a move will stop the check, add to the list
-        }//any moves which are not king moves
-
-        movesToPreventCheck.addAll(king.getLegalMoves(this));//add any king moves which avoid the check
-
-        return movesToPreventCheck;
-    }
-
-    public Status whiteTurn(Move whiteMove) {
-        whiteMove.makeMove();
-        setCurrentPlayerColour(Colour.BLACK);
-
-        if (isCheckMate(Colour.WHITE))
-            return Status.WHITE_WIN;
-        if (isStaleMate(Colour.WHITE))
-            return Status.STALEMATE;
-        return Status.ACTIVE;
-    }
-
-    public Status blackTurn(Move blackMove)
-    {
-        blackMove.makeMove();
-        setCurrentPlayerColour(Colour.WHITE);
-
-        if (isCheckMate(Colour.BLACK))
-            return Status.BLACK_WIN;
-        if (isStaleMate(Colour.BLACK))
-            return Status.STALEMATE;
-        return Status.ACTIVE;
-    }
-
-    public boolean isCheckMate(Colour side)
-    {
-        King king = (side == Colour.WHITE? getWhiteKing(): getBlackKing());
-        if (!king.isKingChecked(this))//if the king is not checked
-        {
-            return false;
-        }
-        return (preventCheckMoves(king, side).isEmpty());//no moves to prevent the check, so checkmate
-    }
-    public boolean isStaleMate(Colour side)
-    {
-        King king = (side == Colour.WHITE? getWhiteKing(): getBlackKing());
-        if (king.isKingChecked(this))//if the king is checked, it is not a stalemate
-            return false;
-        if (!king.getLegalMoves(this).isEmpty())//if the king does have moves, not a stalemate
-        {
-            return false;
-        }
-        return noMoreMoves(side, king);//if there are no more moves on the board, stalemate
-    }
-
-    private boolean noMoreMoves(Colour side, King king) {
-        List<Piece> pieceList = (side == Colour.WHITE? getWhitePieces(): getBlackPieces());
-        //get list of allied pieces
-        for (Piece piece: pieceList)
-        {
-            if (!piece.getIsAlive())
-                continue;
-            if (!piece.getLegalMoves(this).isEmpty())
-                return false;
-        }
-        return true;
-    }
-
-    public void setStatus(Status status)
-    {
-        this.status = status;
-    }
 }
