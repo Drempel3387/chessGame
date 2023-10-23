@@ -1,5 +1,6 @@
 package chess.Pieces;
 import chess.Board.Board;
+import chess.Game.Game;
 import chess.Moves.Move;
 import chess.Colour;
 import chess.Coordinate;
@@ -20,14 +21,14 @@ public class Pawn extends steppingPiece {
             new Coordinate(1, 0), new Coordinate(-1, 0)
     };
     public Pawn(Colour colour, Coordinate coordinate) { super(colour, coordinate); }
-    public List<Move> getLegalMoves(final Board board) {
+    public List<Move> getLegalMoves(final Game game) {
         List<Move> legalMoves = new ArrayList<>();
         int direction = (getColour() == Colour.WHITE)? -1: 1;
 
-        getEnPassantMove(board, legalMoves, direction);
-        getJumpMoves(board, legalMoves, direction);
-        getCaptureMoves(board, legalMoves, direction);
-        removeInvalidMoves(legalMoves, board, getColour());
+        getEnPassantMove(game, legalMoves, direction);
+        getJumpMoves(game, legalMoves, direction);
+        getCaptureMoves(game, legalMoves, direction);
+        removeInvalidMoves(legalMoves, game.getBoard(), getColour());
 
         return legalMoves;
     }//base logic for stepping pieces is not sufficient for pawn moves, must implement separately
@@ -35,42 +36,42 @@ public class Pawn extends steppingPiece {
     public boolean canAttackSquare(Board board, Coordinate squarePosition) {
         return steppingPieceCanAttackSquare(board, squarePosition, POSSIBLE_CAPTURES);
     }
-    private void getJumpMoves(Board board, List<Move> legalMoves, int direction) {
+    private void getJumpMoves(final Game game, final List<Move> legalMoves, final int direction) {
         Coordinate possibleMove = getCoordinate();
         for (int i = 0; i < (getFirstMove()? 2:1); i++) { //if the piece has moved, only check for a single push forwards
             possibleMove = possibleMove.add(POSSIBLE_JUMP.multiply(direction));//attempt to make a move one square in the direction of the piece colour
             if (possibleMove.isValid()) {
-                if (!board.getSquareAt(possibleMove).isOccupied()) { //if the square is empty
+                if (!game.getBoard().getSquareAt(possibleMove).isOccupied()) { //if the square is empty
                     if (isPromotion(possibleMove)) {
                         Queen queen = new Queen(getColour(), possibleMove);
-                        legalMoves.add(new promotionMove(board, this, null, queen, getCoordinate(), possibleMove));
+                        legalMoves.add(new promotionMove(game.getBoard(), this, null, queen, getCoordinate(), possibleMove));
                     }
                     else
-                        legalMoves.add(new normalMove(board, this, null, getCoordinate(), possibleMove));
+                        legalMoves.add(new normalMove(game.getBoard(), this, null, getCoordinate(), possibleMove));
                 }
                 else
                     break;
             }
         }
     }
-    private void getCaptureMoves(Board board, List<Move> legalMoves, int direction) {
+    private void getCaptureMoves(final Game game, final List<Move> legalMoves, final int direction) {
         for (Coordinate capture: POSSIBLE_CAPTURES) {
             Coordinate possibleCaptureMove = getCoordinate().add(capture.multiply(direction));
             if (possibleCaptureMove.isValid()) {
-                if (board.getSquareAt(possibleCaptureMove).isOccupied()) {
-                    if (board.getSquareAt(possibleCaptureMove).getPiece().getColour() != getColour()) {
+                if (game.getBoard().getSquareAt(possibleCaptureMove).isOccupied()) {
+                    if (game.getBoard().getSquareAt(possibleCaptureMove).getPiece().getColour() != getColour()) {
                         if (isPromotion(possibleCaptureMove)) { //if the capture is a promotion
                             Queen queen = new Queen(getColour(), possibleCaptureMove);
-                            legalMoves.add(new promotionMove(board, this, board.getSquareAt(possibleCaptureMove).getPiece(), queen, getCoordinate(), possibleCaptureMove));
+                            legalMoves.add(new promotionMove(game.getBoard(), this, game.getBoard().getSquareAt(possibleCaptureMove).getPiece(), queen, getCoordinate(), possibleCaptureMove));
                         }
                         else
-                            legalMoves.add(new normalMove(board, this, board.getSquareAt(possibleCaptureMove).getPiece(), getCoordinate(), possibleCaptureMove));
+                            legalMoves.add(new normalMove(game.getBoard(), this, game.getBoard().getSquareAt(possibleCaptureMove).getPiece(), getCoordinate(), possibleCaptureMove));
                     }
                 }
             }
         }//pawn capture moves
     }
-    private void getEnPassantMove(Board board, List<Move> legalMoves, int direction)
+    private void getEnPassantMove(final Game game, final List<Move> legalMoves, final int direction)
     {
         if (getColour() == Colour.WHITE && getCoordinate().getRank() != Board.FIFTH)
             return;
@@ -81,10 +82,10 @@ public class Pawn extends steppingPiece {
             Coordinate possibleEnPassantMove = getCoordinate().add(beside);
             if (!possibleEnPassantMove.isValid())
                 continue;
-            Piece piece = board.getSquareAt(possibleEnPassantMove).getPiece();
+            Piece piece = game.getBoard().getSquareAt(possibleEnPassantMove).getPiece();
             if (piece != null && piece.getColour() != getColour()) {
                 if (piece instanceof Pawn) { //if both pieces pawns
-                    legalMoves.add(new enPassantMove(board, this, piece , getCoordinate(), possibleEnPassantMove.add(POSSIBLE_JUMP.multiply(direction))));
+                    legalMoves.add(new enPassantMove(game.getBoard(), this, piece , getCoordinate(), possibleEnPassantMove.add(POSSIBLE_JUMP.multiply(direction))));
                     return;
                 }//*** NOT COMPLETE LOGIC
             }

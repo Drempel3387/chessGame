@@ -1,6 +1,8 @@
 package chess.Pieces.PieceMoveType;
 
 import chess.Board.Board;
+import chess.Game.Game;
+import chess.Game.moveList;
 import chess.Moves.Move;
 import chess.Pieces.Piece;
 import chess.Colour;
@@ -16,29 +18,27 @@ these pieces are the Bishop, the Queen, and the Rook. POSSIBLE_MOVES will be a c
 array which holds all possible one square moves in valid directions for each piece.
 */
 public abstract class slidingPiece extends Piece {
-    public slidingPiece(Colour colour, Coordinate coordinate) {
-        super(colour, coordinate);
-    }
-    protected List<Move> getPseudoLegalMoves(final Board board, final Coordinate[] POSSIBLE_MOVES) {
+    public slidingPiece(Colour colour, Coordinate coordinate) { super(colour, coordinate); }
+    public List<Move> getLegalMoves(final Game game, final Coordinate[] POSSIBLE_MOVES) {
         List<Move> legalMoves = new ArrayList<>();
         Coordinate possibleCoordinate;//candidate move
         for (Coordinate possibleMove: POSSIBLE_MOVES) {
             possibleCoordinate = getCoordinate().add(possibleMove);//move one square for the current direction
             while(possibleCoordinate.isValid()) { //while the new possibleCoordinate is within the chessboard
-                if (!board.getSquareAt(possibleCoordinate).isOccupied()) { //if no piece at the tile with possibleCoordinate, this is a legal move
-                    legalMoves.add(new normalMove(board, this, null,getCoordinate(), possibleCoordinate));
+                if (!game.getBoard().getSquareAt(possibleCoordinate).isOccupied()) { //if no piece at the tile with possibleCoordinate, this is a legal move
+                    legalMoves.add(new normalMove(game.getBoard(), this, null,getCoordinate(), possibleCoordinate));
                 }
                 else {//if there is a piece at the tile with possibleCoordinate
-                    if (getColour() != board.getSquareAt(possibleCoordinate).getPiece().getColour())
+                    if (getColour() != game.getBoard().getSquareAt(possibleCoordinate).getPiece().getColour())
                     {
-                        legalMoves.add(new normalMove(board, this, board.getSquareAt(possibleCoordinate).getPiece(), getCoordinate(), possibleCoordinate));
+                        legalMoves.add(new normalMove(game.getBoard(), this, game.getBoard().getSquareAt(possibleCoordinate).getPiece(), getCoordinate(), possibleCoordinate));
                     }//if not own colour, add the move, and don't look further. (cannot move through other pieces)
                     break;
                 }
                 possibleCoordinate = possibleCoordinate.add(possibleMove);//move one square in the current direction
             }
         }
-        removeInvalidMoves(legalMoves, board, getColour());
+        removeInvalidMoves(legalMoves, game.getBoard(), getColour());
         return legalMoves;
     }
     protected boolean canAttackSquareOnDiagonal(Board board, Coordinate squarePosition) {

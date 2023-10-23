@@ -1,5 +1,7 @@
 package chess.Pieces;
 
+import chess.Game.Game;
+import chess.Game.moveList;
 import chess.Moves.Move;
 import chess.Board.Board;
 import chess.Colour;
@@ -16,11 +18,17 @@ public class Knight extends steppingPiece {
     };//possible knight jump coordinates
     public Knight(Colour colour, Coordinate coordinate) { super(colour, coordinate); }
     @Override
-    public List<Move> getLegalMoves(Board board) { return getPseudoLegalMoves(board, POSSIBLE_MOVES); }
+    public List<Move> getLegalMoves(final Game game) { return getLegalMoves(game, POSSIBLE_MOVES); }
     @Override
     public boolean canAttackSquare(Board board, Coordinate squarePosition) {
         return steppingPieceCanAttackSquare(board, squarePosition, POSSIBLE_MOVES);
     }
+
+    @Override
+    public Boolean hasMoved(moveList list) {
+        return null;
+    }//don't need to see if a knight has moved
+
     @Override
     public String toString() { return "N"; }
 }

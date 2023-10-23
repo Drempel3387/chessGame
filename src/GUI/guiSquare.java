@@ -57,7 +57,7 @@ public class guiSquare extends JPanel {
                 {
                     Colour colour = game.getCurrentPlayerColour();
                     Status status = Status.ACTIVE;
-                    for (Move move: MainFrame.getGuiBoard().getClickedOn().getLegalMoves(game.getBoard())) {
+                    for (Move move: MainFrame.getGuiBoard().getClickedOn().getLegalMoves(game)) {
                         if (move.getEndingCoordinate().areEqual(coordinate)) {
                             status = colour == Colour.WHITE? game.whiteTurn(move):game.blackTurn(move);
                             MainFrame.getRight().getListPanel().addMove(move);
@@ -99,7 +99,7 @@ public class guiSquare extends JPanel {
 
     void highlightLegalMoves(Piece piece)
     {
-        for (Move move: piece.getLegalMoves(game.getBoard()))
+        for (Move move: piece.getLegalMoves(game))
         {
             MainFrame.getGuiBoard().getBoardSquares()[move.getEndingCoordinate().getRank()][move.getEndingCoordinate().getFile()].setBackground(Color.red);
         }//highlight the legal move squares

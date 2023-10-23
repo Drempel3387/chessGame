@@ -65,7 +65,7 @@ public class Game {
         for (Piece piece : pieces) {
             if (!piece.getIsAlive())//if piece is not alive, skip
                 continue;
-            for (Move move : piece.getLegalMoves(board)) {
+            for (Move move : piece.getLegalMoves(this)) {
                 move.makeMove();
                 if (!king.isKingChecked(board))
                     movesToPreventCheck.add(move);
@@ -73,7 +73,7 @@ public class Game {
             }//if a move will stop the check, add to the list
         }//any moves which are not king moves
 
-        movesToPreventCheck.addAll(king.getLegalMoves(board));//add any king moves which avoid the check
+        movesToPreventCheck.addAll(king.getLegalMoves(this));//add any king moves which avoid the check
         return movesToPreventCheck;
     }
 
@@ -87,7 +87,7 @@ public class Game {
         King king = (side == Colour.WHITE? board.getWhiteKing(): board.getBlackKing());
         if (king.isKingChecked(board))//if the king is checked, it is not a stalemate
             return false;
-        if (!king.getLegalMoves(board).isEmpty())//if the king does have moves, not a stalemate
+        if (!king.getLegalMoves(this).isEmpty())//if the king does have moves, not a stalemate
             return false;
         return noMoreMoves(side, king);//if there are no more moves on the board for the current player, stalemate
     }
@@ -98,7 +98,7 @@ public class Game {
         for (Piece piece: pieceList) {
             if (!piece.getIsAlive())
                 continue;
-            if (!piece.getLegalMoves(board).isEmpty())
+            if (!piece.getLegalMoves(this).isEmpty())
                 return false;
         }
         return true;

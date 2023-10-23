@@ -1,6 +1,8 @@
 package chess.Pieces.PieceMoveType;
 
 import chess.Board.Board;
+import chess.Game.Game;
+import chess.Game.moveList;
 import chess.Moves.Move;
 import chess.Pieces.Piece;
 import chess.Colour;
@@ -20,24 +22,24 @@ to remove duplicate code.
 public abstract class steppingPiece extends Piece {
     public steppingPiece(Colour colour, Coordinate coordinate) { super(colour, coordinate); }
 
-    protected List<Move> getPseudoLegalMoves(Board board, Coordinate[] POSSIBLE_MOVES) {
+    protected List<Move> getLegalMoves(final Game game, Coordinate[] POSSIBLE_MOVES) {
         Coordinate possibleCoordinate;//candidate move
         List<Move> legalMoves = new ArrayList<>();//list of all legal moves
 
         for (Coordinate possibleMove : POSSIBLE_MOVES) {
             possibleCoordinate = getCoordinate().add(possibleMove);//see if the current coordinate + the possibleMove is within the board
             if (possibleCoordinate.isValid()) {
-                if (!board.getSquareAt(possibleCoordinate).isOccupied())//if tile not occupied
-                    legalMoves.add(new normalMove(board, this, null, getCoordinate(), possibleCoordinate));
+                if (!game.getBoard().getSquareAt(possibleCoordinate).isOccupied())//if tile not occupied
+                    legalMoves.add(new normalMove(game.getBoard(), this, null, getCoordinate(), possibleCoordinate));
                 else//if occupied
-                    if (board.getSquareAt(possibleCoordinate).getPiece().getColour() != getColour())//if the colour of the piece at the destination is not the current pieces colour
-                        legalMoves.add(new normalMove(board, this, board.getSquareAt(possibleCoordinate).getPiece(), getCoordinate(), possibleCoordinate));
+                    if (game.getBoard().getSquareAt(possibleCoordinate).getPiece().getColour() != getColour())//if the colour of the piece at the destination is not the current pieces colour
+                        legalMoves.add(new normalMove(game.getBoard(), this, game.getBoard().getSquareAt(possibleCoordinate).getPiece(), getCoordinate(), possibleCoordinate));
             }
         }
-        removeInvalidMoves(legalMoves, board, getColour());
+        removeInvalidMoves(legalMoves, game.getBoard(), getColour());
         return legalMoves;
     }
-     public boolean steppingPieceCanAttackSquare(Board board, Coordinate squarePosition, Coordinate[] POSSIBLE_MOVES)
+    public boolean steppingPieceCanAttackSquare(Board board, Coordinate squarePosition, Coordinate[] POSSIBLE_MOVES)
     {
         if (!squarePosition.isValid())
             return false;
