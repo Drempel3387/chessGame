@@ -12,11 +12,19 @@ import java.util.List;
 
 /**
  * @author Devon R.
+ *
+ * Specialization of the slidingPiece class that represents a bishop. A bishop can move on open diagonals on a
+ * sliding scale.
  */
 public class Bishop extends slidingPiece {
+    /**
+     * creates a bishop
+     * @param colour colour of the bishop
+     * @param coordinate coordinate that the bishop lies on
+     */
     public Bishop(Colour colour, Coordinate coordinate) { super(colour, coordinate); }
     @Override
-    public boolean canAttackSquare(Board board ,Coordinate squarePosition) {
+    public boolean canAttackSquare(Board board,Coordinate squarePosition) {
         return canAttackSquareOnDiagonal(board, squarePosition);
     }
 
@@ -24,6 +32,10 @@ public class Bishop extends slidingPiece {
     {
         return getLegalMoves(game, POSSIBLE_MOVES);
     }
+
+    /**
+     * Coordinate vectors for each diagonal that a bishop can move on. up-right, up-left, down-right, down-left
+     */
     public static final Coordinate[] POSSIBLE_MOVES = {
             new Coordinate(1, 1), new Coordinate(1, -1),
             new Coordinate(-1, 1), new Coordinate(-1, -1)

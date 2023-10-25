@@ -12,13 +12,28 @@ import chess.Moves.normalMove;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
-This class defines the getLegalMoves function for pieces that move on a sliding scale.
-these pieces are the Bishop, the Queen, and the Rook. POSSIBLE_MOVES will be a coordinate
-array which holds all possible one square moves in valid directions for each piece.
+/**
+ * @author Devon R.
+ *
+ * This class defines the getLegalMoves function for pieces that move on a sliding scale.
+ * these pieces are the Bishop, the Queen, and the Rook. POSSIBLE_MOVES will be a coordinate
+ * array which holds all possible one square moves in valid directions for each piece. The class also
+ * validates if a sliding piece can attack a square.
 */
 public abstract class slidingPiece extends Piece {
+    /**
+     * initializes a slidingPiece
+     * @param colour colour of the slidingPiece
+     * @param coordinate starting coordinate of the slidingPiece
+     */
     public slidingPiece(Colour colour, Coordinate coordinate) { super(colour, coordinate); }
+
+    /**
+     * returns the list of legalMoves that a slidingPiece has.
+     * @param game game which the slidingPiece belongs to
+     * @param POSSIBLE_MOVES possible move directions which a slidingPiece has
+     * @return list<Move>
+     */
     public List<Move> getLegalMoves(final Game game, final Coordinate[] POSSIBLE_MOVES) {
         List<Move> legalMoves = new ArrayList<>();
         Coordinate possibleCoordinate;//candidate move
@@ -41,7 +56,14 @@ public abstract class slidingPiece extends Piece {
         removeInvalidMoves(legalMoves, game.getBoard(), getColour());
         return legalMoves;
     }
-    protected boolean canAttackSquareOnDiagonal(Board board, Coordinate squarePosition) {
+
+    /**
+     * Returns whether a piece is on the same diagonal as a square and is able to attack the square.
+     * @param board board which a slidingPiece belongs to
+     * @param squarePosition coordinate to be checked for attacking ability
+     * @return boolean indicating attacking ability
+     */
+    protected boolean canAttackSquareOnDiagonal(final Board board, final Coordinate squarePosition) {
         if (!squarePosition.isValid())
             return false;
 
@@ -58,7 +80,14 @@ public abstract class slidingPiece extends Piece {
         Coordinate stepInDirection = new Coordinate(stepX, stepY);
         return canAttackSquareInDirection(board, stepInDirection, squarePosition);
     }
-    protected boolean canAttackSquareOnFileOrRank(Board board, Coordinate squarePosition) {
+
+    /**
+     * returns whether a piece is on the same rank or file as a coordinate, and can attack the given coordinate.
+     * @param board board which the slidingPiece belongs to
+     * @param squarePosition coordinate of square to be checked for attacking ability
+     * @return boolean indicating attacking ability
+     */
+    protected boolean canAttackSquareOnFileOrRank(final Board board, final Coordinate squarePosition) {
         if (!squarePosition.isValid())
             return false;
 
@@ -81,7 +110,17 @@ public abstract class slidingPiece extends Piece {
         Coordinate stepInDirection = new Coordinate(stepX, stepY);
         return canAttackSquareInDirection(board, stepInDirection, squarePosition);
     }
-    protected boolean canAttackSquareInDirection(Board board, Coordinate stepInDirection, Coordinate squarePosition) {
+
+    /**
+     * This function is called when it has been validated that a stepping piece is able to attack a given square.
+     * This means that we only need to move in one direction, and check if there are any obstacles to attacking. (pieces
+     * in the way). This functions validates that the square can actually be attacked.
+     * @param board board which the steppingPiece belongs to
+     * @param stepInDirection direction to check
+     * @param squarePosition position of square to check for attacking ability
+     * @return
+     */
+    protected boolean canAttackSquareInDirection(final Board board, final Coordinate stepInDirection, final Coordinate squarePosition) {
         Coordinate currentCoordinate = getCoordinate().add(stepInDirection);
 
         while(currentCoordinate.isValid()) {
