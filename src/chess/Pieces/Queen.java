@@ -28,10 +28,5 @@ public class Queen extends slidingPiece {
     }
 
     @Override
-    public Boolean hasMoved(moveList list) {
-        return null;
-    }//don't need to see if a queen has moved
-
-    @Override
     public String toString() { return "Q"; }
 }

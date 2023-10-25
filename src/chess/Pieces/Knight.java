@@ -25,10 +25,5 @@ public class Knight extends steppingPiece {
     }
 
     @Override
-    public Boolean hasMoved(moveList list) {
-        return null;
-    }//don't need to see if a knight has moved
-
-    @Override
     public String toString() { return "N"; }
 }

@@ -46,13 +46,6 @@ public abstract class Piece {
     }//remove moves which place the king into check
     public abstract List<Move> getLegalMoves(final Game game);//a list of all legal moves for a piece
     public abstract boolean canAttackSquare(final Board board, final Coordinate squarePosition);
-    public Boolean hasMoved(final moveList list)
-    {
-        for (int i = 0; i < list.getNumberOfMoves(); i++)
-            if (list.getMoveAt(i).getMovingPiece() == this)
-                return true;
-        return false;
-    }
     @Override
     public abstract String toString();//print the piece to the screen, used to play console chess
 }

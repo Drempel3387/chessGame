@@ -36,7 +36,7 @@ public class King extends steppingPiece {
     private void getCastleMoves(final Game game, final List<Move> allLegalMoves) {
         if (isKingChecked(game.getBoard()))//if the king is checked, castling is not possible
             return;
-        if (hasMoved(game.getGameMoves()))//if king has moved, cannot castle
+        if (game.getGameMoves().hasPieceMoved(this))//if king has moved, cannot castle
             return;
         Coordinate currentSquareCoord, startingCoordinate = getCoordinate();
         for (Coordinate coordinate: CASTLE_CHECK_MOVES) {
@@ -45,7 +45,7 @@ public class King extends steppingPiece {
                 setCoordinate(currentSquareCoord);
                 if (game.getBoard().getSquareAt(currentSquareCoord).isOccupied()) {
                     Piece piece = game.getBoard().getSquareAt(currentSquareCoord).getPiece();
-                    if (piece instanceof Rook && piece.getColour() == getColour() && !piece.hasMoved(game.getGameMoves())) {
+                    if (piece instanceof Rook && piece.getColour() == getColour() && !game.getGameMoves().hasPieceMoved(piece)) {
                         if (coordinate.areEqual(new Coordinate(1, 0)))
                             allLegalMoves.add(new castleMove(game.getBoard(), this, piece,startingCoordinate,currentSquareCoord.add(coordinate.multiply(-1))));
                         else

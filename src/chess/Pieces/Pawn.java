@@ -84,7 +84,7 @@ public class Pawn extends steppingPiece {
                 continue;
             Piece piece = game.getBoard().getSquareAt(possibleEnPassantMove).getPiece();
             if (piece != null && piece.getColour() != getColour()) {
-                if (piece instanceof Pawn) { //if both pieces pawns
+                if (piece instanceof Pawn && lastMovePawnPushByTwo(game, piece)) { //if both pieces pawns
                     legalMoves.add(new enPassantMove(game.getBoard(), this, piece , getCoordinate(), possibleEnPassantMove.add(POSSIBLE_JUMP.multiply(direction))));
                     return;
                 }//*** NOT COMPLETE LOGIC
@@ -96,10 +96,21 @@ public class Pawn extends steppingPiece {
             return false;
         return getColour() != Colour.BLACK || position.getRank() == Board.FIRST;
     }//check to see if a piece is a pawn, and either on the first or eighth rank based on colour
-    public boolean getFirstMove() {
+    private boolean getFirstMove() {
         if (getColour() == Colour.WHITE && getCoordinate().getRank() != Board.SECOND)
             return false;
         return getColour() != Colour.BLACK || getCoordinate().getRank() == Board.SEVENTH;
+    }
+    private boolean getFirstMove(final Coordinate coordinate, final Colour colour) {
+        if (colour == Colour.WHITE && coordinate.getRank() != Board.SECOND)
+            return false;
+        return colour != Colour.BLACK || coordinate.getRank() == Board.SEVENTH;
+    }
+    private boolean lastMovePawnPushByTwo(final Game game, final Piece piece)
+    {
+        if (game.getGameMoves().getLast().getMovingPiece() != piece)
+            return false;
+        return (getFirstMove(game.getGameMoves().getLast().initialCoordinate(), piece.getColour()));
     }
     @Override
     public String toString() {

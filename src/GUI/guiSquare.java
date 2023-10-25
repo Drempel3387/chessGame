@@ -104,7 +104,6 @@ public class guiSquare extends JPanel {
             MainFrame.getGuiBoard().getBoardSquares()[move.getEndingCoordinate().getRank()][move.getEndingCoordinate().getFile()].setBackground(Color.red);
         }//highlight the legal move squares
     }
-
     public void setSquareColour(Colour colour)
     {
         if (colour == Colour.WHITE)
@@ -112,7 +111,6 @@ public class guiSquare extends JPanel {
         else
             setBackground(Color.decode("#4682B4"));
     }
-
     public void addPieceIconToSquare()
     {
         removeAll();

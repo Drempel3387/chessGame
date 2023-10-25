@@ -41,6 +41,7 @@ public class Game {
             return Status.STALEMATE;
 
         gameMoves.addMoveToList(whiteMove);
+        gameMoves.addMoveToList(whiteMove, whiteMove.getMovingPiece());
         return Status.ACTIVE;
     }
 
@@ -55,6 +56,7 @@ public class Game {
             return Status.STALEMATE;
 
         gameMoves.addMoveToList(blackMove);
+        gameMoves.addMoveToList(blackMove, blackMove.getMovingPiece());
         return Status.ACTIVE;
     }
 

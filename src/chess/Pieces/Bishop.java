@@ -18,11 +18,6 @@ public class Bishop extends slidingPiece {
         return canAttackSquareOnDiagonal(board, squarePosition);
     }
 
-    @Override
-    public Boolean hasMoved(moveList list) {
-        return null;
-    }//don't need to see if a bishop has moved
-
     public List<Move> getLegalMoves(final Game game)
     {
         return getLegalMoves(game, POSSIBLE_MOVES);
