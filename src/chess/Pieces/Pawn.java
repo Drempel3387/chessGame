@@ -11,7 +11,11 @@ import chess.Pieces.PieceMoveType.steppingPiece;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * @author Devon
+ *
+ * Implementation of
+ */
 public class Pawn extends steppingPiece {
     private final Coordinate POSSIBLE_JUMP = new Coordinate(0,1);
     private final Coordinate[] POSSIBLE_CAPTURES = {

@@ -8,7 +8,9 @@ import chess.Moves.Move;
 import chess.Pieces.PieceMoveType.slidingPiece;
 
 import java.util.List;
-
+/**
+ * @author Devon R.
+ */
 public class Rook extends slidingPiece {
     public Rook(Colour colour, Coordinate coordinate) { super(colour, coordinate); }
     @Override

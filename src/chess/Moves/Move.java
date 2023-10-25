@@ -1,13 +1,13 @@
 package chess.Moves;
-
-
 import chess.Board.Board;
 import chess.Game.moveList;
 import chess.Colour;
 import chess.Coordinate;
 import chess.Pieces.Pawn;
 import chess.Pieces.Piece;
-
+/**
+ * @author Devon R.
+ */
 public abstract class Move {
     protected final Board board;//board which the move will be made on
     protected final Piece movingPiece;//the piece which will be moving

@@ -10,7 +10,9 @@ import chess.Pieces.PieceMoveType.slidingPiece;
 
 import java.util.List;
 
-
+/**
+ * @author Devon R.
+ */
 public class Bishop extends slidingPiece {
     public Bishop(Colour colour, Coordinate coordinate) { super(colour, coordinate); }
     @Override

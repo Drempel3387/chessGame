@@ -8,20 +8,47 @@ import chess.Coordinate;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * @author Devon R.
+ *
+ * Represents the 8X8 collection of squares and collection of white and black pieces that make up a chess board.
+ * The board will maintain lists of white + black pieces, an array of the squares contained within it, and final int's
+ * that represent the rank/file coordinates of squares within the board. The board will be in charge of initialization,
+ * resetting back to the starting position, printing a console representation, and providing access to lists of
+ * white and black pieces.
+ */
 public class Board {
-    //the actual "chess board" 8x8 array of Squares
+    /**
+     * 2D array representing the squares of a chessboard.
+     */
     private final Square[][] squares = new Square[RANKS][FILES];
-    //lists of the pieces for white and black
+    /**
+     * List of all white pieces on the board
+     */
     private final List<Piece> whitePieces = new ArrayList<>();
+    /**
+     * List of all black pieces on the board
+     */
     private final List<Piece> blackPieces = new ArrayList<>();
-    //black and white king
+    /**
+     * White's king. Stored separately because it allows quick access when seeing if checkmate or stalemate is present
+     */
     private King whiteKing;
+    /**
+     * Black's king. Stored separately because it allows quick access when seeing if checkmate or stalemate is present
+     */
     private King blackKing;
-    //number of ranks and files
+    /**
+     * Number of files on a chessboard. AKA "Columns"
+     */
     public static final int FILES = 8;
+    /**
+     * Number of ranks on a chessboard. AKA "Rows"
+     */
     public static final int RANKS = 8;
-    //rank and file numbers for the board
+    /**
+     * Rank and File number constants that are used when accessing a specific square within the squares array
+     */
     public static final int FIRST = 7;
     public static int SECOND = 6;
     public static final int THIRD = 5;
@@ -30,12 +57,19 @@ public class Board {
     public static final int SIXTH = 2;
     public static final int SEVENTH = 1;
     public static final int EIGHTH = 0;
+
+    /**
+     * Will create a chessboard by initializing all squares, white pieces, and black pieces
+     */
     public Board() {
         initSquares();
         initBlackPieces();
         initWhitePieces();
     }
 
+    /**
+     * Will reset a chessboard to its original position by resetting the lists of pieces, and re-initializing the board.
+     */
     public void reset() {
         // Clear the lists to remove any existing pieces
         whitePieces.clear();
@@ -44,12 +78,21 @@ public class Board {
         initBlackPieces();
         initWhitePieces();
     }
+
+    /**
+     * Will initialize each square in the squares array to the correct rank and file, and set the occupying piece to null
+     */
     private void initSquares() {
         for (int rank = 0; rank < RANKS; rank++)
             for (int file = 0; file < FILES; file++)
                 squares[rank][file] = new Square(new Coordinate(file, RANKS - rank - 1), null);
             //initialize each squares in the array with the correct coordinate, and no Piece yet
-    }//a square with a null piece signifies it is empty
+    }//a square with a null piece signifies it is empty\
+
+    /**
+     * initializes all black pieces on the chessboard. Will place the correct number of pieces in their designated square
+     * for a standardized chess board. This will also add each piece to the piece list.
+     */
     private void initBlackPieces() {
         for (int i = 0; i < FILES; i++) {
             Pawn pawn = new Pawn(Colour.BLACK, new Coordinate(i, SEVENTH));
@@ -90,6 +133,10 @@ public class Board {
         squares[EIGHTH][FIFTH].setPiece(blackQueen);
         blackPieces.add(blackQueen);
     }
+    /**
+     * initializes all white pieces on the chessboard. Will place the correct number of pieces in their designated square
+     * for a standardized chess board. This will also add each piece to the piece list.
+     */
     private void initWhitePieces() {
         for (int i = 0; i < FILES; i++) {
             Pawn pawn = new Pawn(Colour.WHITE, new Coordinate(i, SECOND));
@@ -130,11 +177,24 @@ public class Board {
         squares[FIRST][FIFTH].setPiece(whiteQueen);
         whitePieces.add(whiteQueen);
     }
-    public Square getSquareAt(Coordinate coordinate) { return (squares[coordinate.getRank()][coordinate.getFile()]); }//return the tile at a specific coordinate
+
+    /**
+     * will return a square of a desired coordinate on a chessboard.
+     * @param coordinate of the desired square
+     * @return a square at the given coordinate
+     */
+    public Square getSquareAt(Coordinate coordinate) { return (squares[coordinate.getRank()][coordinate.getFile()]); }
+    /**
+     *Will return the 2D array of squares, AKA "the actual board"
+     */
     public Square[][] getSquares() {
         return squares;
-    }//return the entire board
+    }
 
+    /**
+     * used to print a chessboard to the console. Will print the toString value of a piece, or "E" to signify an empty\
+     * square
+     */
     public void print() {
         for (int i = 0; i < RANKS; i++) {
             System.out.print(" " + (RANKS - i));
@@ -148,9 +208,28 @@ public class Board {
         for (int i = 0; i < 8; i++)
             System.out.print(" " + (char)(Coordinate.STARTING_FILE + i));
         System.out.println();
-    }//print the entire board to the console
+    }
+
+    /**
+     * will return the list of white pieces relating to a board
+     * @return whitePieces list of white pieces
+     */
     public List<Piece> getWhitePieces() { return whitePieces; }
+    /**
+     * will return the list of black pieces relating to a board
+     * @return blackPieces list of black pieces
+     */
     public List<Piece> getBlackPieces() { return blackPieces; }
+
+    /**
+     * Will return the blackKing relating to a chessboard
+     * @return blackKing the black king
+     */
     public King getBlackKing() { return blackKing; }
+
+    /**
+     * Will return the whiteKing relating to a chessboard
+     * @return whiteKing the white king
+     */
     public King getWhiteKing() { return whiteKing; }
 }

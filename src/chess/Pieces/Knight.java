@@ -9,6 +9,9 @@ import chess.Coordinate;
 import chess.Pieces.PieceMoveType.steppingPiece;
 
 import java.util.List;
+/**
+ * @author Devon R.
+ */
 public class Knight extends steppingPiece {
 
     public static final Coordinate[] POSSIBLE_MOVES = {

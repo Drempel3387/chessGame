@@ -1,4 +1,7 @@
 package chess;
+/**
+ * @author Devon R.
+ */
 public class Coordinate {
     //row and column values which relate to a chessboard
     private final int rank;

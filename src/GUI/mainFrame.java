@@ -16,7 +16,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-
+/**
+ * @author Devon R.
+ */
 public class mainFrame extends JFrame {
     private final Dimension FRAME_SIZE = new Dimension(800, 800);
     private final leftPanel left;

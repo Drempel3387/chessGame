@@ -17,7 +17,9 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
+/**
+ * @author Devon R.
+ */
 public class guiSquare extends JPanel {
     private final Coordinate coordinate;//coordinate associated with the square
     private final Game game;

@@ -9,7 +9,9 @@ import chess.Moves.Move;
 import chess.Pieces.PieceMoveType.slidingPiece;
 
 import java.util.List;
-
+/**
+ * @author Devon R.
+ */
 public class Queen extends slidingPiece {
     public static final Coordinate[] POSSIBLE_MOVES = {
             new Coordinate(1, 0), new Coordinate(0, 1),

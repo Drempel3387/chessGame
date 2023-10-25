@@ -3,7 +3,9 @@ package chess.Moves;
 import chess.Board.Board;
 import chess.Pieces.Piece;
 import chess.Coordinate;
-
+/**
+ * @author Devon R.
+ */
 public class castleMove extends Move {
     private final int ONE_SQUARE = 1;
     private final int ZERO = 0;

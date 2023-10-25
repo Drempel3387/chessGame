@@ -1,9 +1,10 @@
 package chess.Moves;
-
 import chess.Board.Board;
 import chess.Pieces.Piece;
 import chess.Coordinate;
-
+/**
+ * @author Devon R.
+ */
 public class normalMove extends Move{
     public normalMove(Board board, Piece movingPiece, Piece capturedPiece, Coordinate initialCoordinate, Coordinate endingCoordinate) {
         super(board, movingPiece, capturedPiece, initialCoordinate, endingCoordinate);

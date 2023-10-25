@@ -8,7 +8,9 @@ import chess.Pieces.Piece;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * @author Devon R.
+ */
 public class Game {
     private final Board board;
     private final moveList gameMoves;

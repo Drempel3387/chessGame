@@ -9,7 +9,9 @@ import chess.Pieces.Piece;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
-
+/**
+ * @author Devon R.
+ */
 public class guiBoard extends JPanel {
     private final int RANKS = 8;
     private final int FILES = 8;

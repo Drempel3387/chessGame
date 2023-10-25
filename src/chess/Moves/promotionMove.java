@@ -7,7 +7,9 @@ import chess.Coordinate;
 import chess.Pieces.Queen;
 
 import java.util.List;
-
+/**
+ * @author Devon R.
+ */
 //dummy class for now, will simulate promotion by promoting to a queen
 //will implement different piece promotion later
 public class promotionMove extends Move

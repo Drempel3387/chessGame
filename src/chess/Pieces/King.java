@@ -11,7 +11,9 @@ import chess.Pieces.PieceMoveType.steppingPiece;
 
 import java.util.List;
 
-
+/**
+ * @author Devon R.
+ */
 public class King extends steppingPiece {
     private final Coordinate[] CASTLE_CHECK_MOVES = {
             new Coordinate(1, 0), new Coordinate(-1, 0) };
