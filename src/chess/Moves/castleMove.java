@@ -5,48 +5,73 @@ import chess.Pieces.Piece;
 import chess.Coordinate;
 /**
  * @author Devon R.
+ *
+ * Specialization of the Move class. A castleMove represents a king being castled in a chessGame. Castling involves a king
+ * which has not been moved, an unmoved rook, and an empty space between the king and rook. This may take place on the
+ * kingside(side of board which the king is closest to), or the queenside(side of board which the queen is closest to).
  */
 public class castleMove extends Move {
-    private final int ONE_SQUARE = 1;
-    private final int ZERO = 0;
+    /**
+     * Create a castleMove
+     * @param board board which the move is played
+     * @param movingPiece piece that is moving
+     * @param capturedPiece captured piece(if any)
+     * @param initialCoordinate initial coordinate of the movingPiece
+     * @param endingCoordinate ending coordinate of the moving piece
+     */
     public castleMove(Board board, Piece movingPiece, Piece capturedPiece, Coordinate initialCoordinate, Coordinate endingCoordinate) {
         super(board, movingPiece, capturedPiece, initialCoordinate, endingCoordinate);
     }
+
+    /**
+     * Used to make a castling move on a chessboard
+     */
     @Override
     public void makeMove() {
         board.getSquareAt(initialCoordinate()).setPiece(null);//set pieces at previous squares of rook and king to null
         board.getSquareAt(capturedPiece.getCoordinate()).setPiece(null);//captured piece represents the rook
 
+        //move the king to it's ending position
         board.getSquareAt(endingCoordinate).setPiece(movingPiece);//moving piece represents the king
         movingPiece.setCoordinate(endingCoordinate);
 
-        //if the distance between where the king lands and the rooks starting square is greater than one, this is queen-side
-        //castling, otherwise king-side castling
+
         Coordinate rookEndingCoordinate;
-        if (endingCoordinate.distance(capturedPiece.getCoordinate()) > ONE_SQUARE)
+        //if the ending file is less than the fourth, this is queen-side
+        if (endingCoordinate.getFile() < Board.FOURTH)
             rookEndingCoordinate = endingCoordinate.add(new Coordinate(1, 0));
         else
             rookEndingCoordinate = endingCoordinate.add(new Coordinate(-1, 0));
 
+        //move the rook to it's ending position
         board.getSquareAt(rookEndingCoordinate).setPiece(capturedPiece);
         capturedPiece.setCoordinate(rookEndingCoordinate);
     }
 
+    /**
+     * Used to unMake a castling move on a chessboard
+     */
     @Override
     public void unMakeMove() {
         board.getSquareAt(getEndingCoordinate()).setPiece(null);//set the squares of where the king rook landed back to null
-        board.getSquareAt(getEndingPiece().getCoordinate()).setPiece(null);
+        board.getSquareAt(getCapturedPiece().getCoordinate()).setPiece(null);
 
-        board.getSquareAt(initialCoordinate()).setPiece(getMovingPiece());//move the king back to starting square
+        //move the king back to its starting square
+        board.getSquareAt(initialCoordinate()).setPiece(getMovingPiece());
         movingPiece.setCoordinate(initialCoordinate());
 
-        if (initialCoordinate.getFile() - endingCoordinate.getFile() < ZERO)//negative is king-side castling
-            getEndingPiece().setCoordinate(new Coordinate(Board.FIRST, getEndingPiece().getCoordinate().getRank()));
+        //move the rook back to its starting square
+        if (endingCoordinate.getFile() < Board.FOURTH)
+            getCapturedPiece().setCoordinate(new Coordinate(Board.EIGHTH, getCapturedPiece().getCoordinate().getRank()));
         else
-            getEndingPiece().setCoordinate(new Coordinate(Board.EIGHTH, getEndingPiece().getCoordinate().getRank()));
-        board.getSquareAt(getEndingPiece().getCoordinate()).setPiece(getEndingPiece());
+            getCapturedPiece().setCoordinate(new Coordinate(Board.FIRST, getCapturedPiece().getCoordinate().getRank()));
+        board.getSquareAt(getCapturedPiece().getCoordinate()).setPiece(getCapturedPiece());
     }
 
+    /**
+     * Will return the correct string representation for king-side and queen-side castling
+     * @return string representing the move
+     */
     public String toString()
     {
         if (initialCoordinate.getFile() - endingCoordinate.getFile() < 0)

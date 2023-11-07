@@ -9,9 +9,12 @@ import chess.Pieces.Queen;
 import java.util.List;
 /**
  * @author Devon R.
+ *
+ * Specialization of the Move class. A promotion move is a move where a pawn is "promoted" when it reaches the opposite end
+ * of the board. If a pawn is white, and reaches the eighth rank, or a pawn is black and reaches the first rank, it must promote.
+ * Promotion means that the pawn is replaced by any piece of the same colour.
  */
-//dummy class for now, will simulate promotion by promoting to a queen
-//will implement different piece promotion later
+
 public class promotionMove extends Move
 {
     final Piece promotedPiece;
@@ -23,7 +26,7 @@ public class promotionMove extends Move
     @Override
     public void makeMove() {
         if (isCapture())
-            getEndingPiece().setIsAlive(false);//the captured piece is now "dead"
+            getCapturedPiece().setIsAlive(false);//the captured piece is now "dead"
         board.getSquareAt(initialCoordinate()).setPiece(null);//square is now empty, null to signify
         movingPiece.setIsAlive(false);//The capturing pawn is now "dead" also given that it is turning into a queen
 
@@ -37,9 +40,9 @@ public class promotionMove extends Move
         List<Piece> pieces = movingPiece.getColour() == Colour.WHITE? board.getWhitePieces(): board.getBlackPieces();
         pieces.remove(promotedPiece);//remove the queen from the list of active pieces
         if (isCapture())
-            getEndingPiece().setIsAlive(true);//set status of captured piece back to alive
+            getCapturedPiece().setIsAlive(true);//set status of captured piece back to alive
 
-        board.getSquareAt(getEndingCoordinate()).setPiece(getEndingPiece());//place the captured piece back on the board
+        board.getSquareAt(getEndingCoordinate()).setPiece(getCapturedPiece());//place the captured piece back on the board
         board.getSquareAt(initialCoordinate()).setPiece(getMovingPiece());//place the moving piece back to its original square
         getMovingPiece().setCoordinate(initialCoordinate());//reset the pawns coordinate
         getMovingPiece().setIsAlive(true);//set the piece back to alive

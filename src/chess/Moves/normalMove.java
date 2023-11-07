@@ -4,11 +4,25 @@ import chess.Pieces.Piece;
 import chess.Coordinate;
 /**
  * @author Devon R.
+ *
+ * Specialization of the Move Class. A normal move represents any capture, or non capture move that is not castling,
+ * enPassant, or promotion.
  */
-public class normalMove extends Move{
+public class normalMove extends Move {
+    /**
+     * Creates a normalMove
+     * @param board board on which the move is played
+     * @param movingPiece Piece that is moving
+     * @param capturedPiece Piece that is being captured
+     * @param initialCoordinate Starting coordinate of the moving piece
+     * @param endingCoordinate Ending coordinate of the moving piece
+     */
     public normalMove(Board board, Piece movingPiece, Piece capturedPiece, Coordinate initialCoordinate, Coordinate endingCoordinate) {
         super(board, movingPiece, capturedPiece, initialCoordinate, endingCoordinate);
     }
+    /**
+     * Used to make a normalMove on a chessboard
+     */
     @Override
     public void makeMove() {
         if (isCapture())
@@ -17,12 +31,14 @@ public class normalMove extends Move{
         board.getSquareAt(getEndingCoordinate()).setPiece(getMovingPiece());//move the current to the ending position
         getMovingPiece().setCoordinate(getEndingCoordinate());//update the moving pieces coordinate
     }
-
+    /**
+     * Used to unMake a normalMove on a chessboard
+     */
     @Override
     public void unMakeMove() {
         if (isCapture())
-            getEndingPiece().setIsAlive(true);//set captured piece back to alive
-        board.getSquareAt(getEndingCoordinate()).setPiece(getEndingPiece());//place the captured piece back on the board (if there is one, will be null otherwise)
+            getCapturedPiece().setIsAlive(true);//set captured piece back to alive
+        board.getSquareAt(getEndingCoordinate()).setPiece(getCapturedPiece());//place the captured piece back on the board (if there is one, will be null otherwise)
         board.getSquareAt(initialCoordinate()).setPiece(getMovingPiece());//place the moving piece back to its original square
         getMovingPiece().setCoordinate(initialCoordinate());//reset the moving pieces coordinate
     }

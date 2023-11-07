@@ -15,7 +15,7 @@ public enum Status {
      */
     WHITE_WIN,
     /**
-     * The game is currently active, meaning that after a move has been made, the other side may continue to make move.
+     * The game is currently active, meaning that after a move has been made, the other side may continue to make a move.
      */
     ACTIVE,
     /**

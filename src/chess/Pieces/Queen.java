@@ -13,7 +13,7 @@ import java.util.List;
  * @author Devon R.
  *
  * Specialization of the slidingPiece class that represents a chess Queen. A queen can move on open ranks, file, and diagonals.
- * So, a queen has the moving capabilities of a bishop, and also a rook. A queen moves on a sliding scale
+ * So, a queen has the moving capabilities of a bishop, and also a rook. A queen moves on a sliding scale.
  */
 public class Queen extends slidingPiece {
     /**

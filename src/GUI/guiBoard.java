@@ -32,7 +32,7 @@ public class guiBoard extends JPanel {
             for (int file = 0; file < FILES; file++)
             {
                 Colour squareColour = ((rank+file)%2 == 0?Colour.WHITE:Colour.BLACK);
-                guiSquare square  = new guiSquare(new Coordinate(file ,  rank), game, MainFrame ,squareColour);
+                guiSquare square  = new guiSquare(new Coordinate(file ,  rank), game, MainFrame, squareColour);
                 boardSquares[rank][file] = square;
                 add(square);
             }

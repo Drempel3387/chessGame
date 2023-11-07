@@ -48,7 +48,7 @@ public abstract class slidingPiece extends Piece {
                     {
                         legalMoves.add(new normalMove(game.getBoard(), this, game.getBoard().getSquareAt(possibleCoordinate).getPiece(), getCoordinate(), possibleCoordinate));
                     }//if not own colour, add the move, and don't look further. (cannot move through other pieces)
-                    break;
+                    break;//if same colour still break, just don't add the move.
                 }
                 possibleCoordinate = possibleCoordinate.add(possibleMove);//move one square in the current direction
             }

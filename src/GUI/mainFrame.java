@@ -94,7 +94,7 @@ public class mainFrame extends JFrame {
             try {
                 myImage = ImageIO.read(new File(filePath));
 
-                // Resize the image
+                //Resize the image
                 Image resizedImage = myImage.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
                 ImageIcon icon = new ImageIcon(resizedImage);
                 JLabel pieceImage = new JLabel(icon);
@@ -134,13 +134,24 @@ public class mainFrame extends JFrame {
         private final String[] possibleStatus = {"Black Win", "White Win", "Active", "Stalemate"};
         public bottomPanel()
         {
-            status = Status.ACTIVE;
+            status = game.getStatus();
             currentStatus = new JLabel();
             currentStatus.setText("Current game status: " + possibleStatus[status.ordinal()]);
-
+            add(currentStatus);
             setBackground(Color.decode( "#F5F5F5"));
             setPreferredSize(new Dimension(150, 150));
             setBorder(BorderFactory.createLoweredBevelBorder());
+        }
+        public void updateBottomPanel()
+        {
+            currentStatus.setText("");
+            currentStatus.setText("Current game status: " + possibleStatus[status.ordinal()]);
+            revalidate();
+            repaint();
+        }
+
+        public void setStatus(final Status status) {
+            this.status = status;
         }
     }
 
@@ -187,8 +198,12 @@ public class mainFrame extends JFrame {
                     board.getBackendBoard().reset();
                     board.updateBoard();
                     game.reset();
+
                     right.updateRightPanel(board.getBackendBoard());
                     right.getListPanel().clear();
+
+                    bottom.setStatus(Status.ACTIVE);
+                    bottom.updateBottomPanel();
                 }
             });
             return exitItem;

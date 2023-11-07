@@ -61,16 +61,19 @@ public class guiSquare extends JPanel {
                     Status status = Status.ACTIVE;
                     for (Move move: MainFrame.getGuiBoard().getClickedOn().getLegalMoves(game)) {
                         if (move.getEndingCoordinate().areEqual(coordinate)) {
-                            status = colour == Colour.WHITE? game.whiteTurn(move):game.blackTurn(move);
+                            status = (colour == Colour.WHITE? game.whiteTurn(move):game.blackTurn(move));
                             MainFrame.getRight().getListPanel().addMove(move);
                             break;
                         }
                     }
                     MainFrame.getGuiBoard().updateBoard();
                     MainFrame.getGuiBoard().setClickedOn(null);
-
                     game.setStatus(status);
+                    MainFrame.getBottom().setStatus(status);
+
                     MainFrame.getRight().updateRightPanel(game.getBoard());
+                    MainFrame.getBottom().updateBottomPanel();
+
                 }
 
             }
