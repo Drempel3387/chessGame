@@ -24,7 +24,7 @@ public class Bishop extends slidingPiece {
      */
     public Bishop(Colour colour, Coordinate coordinate) { super(colour, coordinate); }
     @Override
-    public boolean canAttackSquare(Board board,Coordinate squarePosition) {
+    public boolean canAttackSquare(final Board board,final Coordinate squarePosition) {
         return canAttackSquareOnDiagonal(board, squarePosition);
     }
 

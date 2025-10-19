@@ -27,6 +27,7 @@ public class guiBoard extends JPanel {
         setLayout(new GridLayout(RANKS, FILES));
         setBackground(Color.decode("#F5F5F5"));
         setBorder(BorderFactory.createLoweredBevelBorder());
+        setPreferredSize(new Dimension(600, 600));
         for (int rank = 0; rank < RANKS; rank++)
         {
             for (int file = 0; file < FILES; file++)

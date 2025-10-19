@@ -23,7 +23,7 @@ public class moveList {
      */
     private final List<Move> gameMoves;
     /**
-     * A mapping of Piece to Move which allows a quick check of whether a piece has moved or not yet.
+     * A mapping of Piece to Move which allows a quick check of whether a piece has moved.
      */
     private final Map<Piece, Move> pieceMoves;
 

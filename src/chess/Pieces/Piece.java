@@ -87,7 +87,7 @@ public abstract class Piece {
      * @param board the board which the moves belong to
      * @param currentColour colour of the current player
      */
-    protected void removeInvalidMoves(final List<Move> moves, final Board board, Colour currentColour) {
+    protected void removeInvalidMoves(final List<Move> moves, final Board board, final Colour currentColour) {
         King king = currentColour == Colour.WHITE? board.getWhiteKing(): board.getBlackKing();
         List<Move> illegalMoves = new ArrayList<>();
         for (Move move: moves) {

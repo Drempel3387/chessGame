@@ -7,6 +7,7 @@ import chess.Colour;
 import chess.Moves.Move;
 import chess.Pieces.Piece;
 
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +22,7 @@ import java.util.List;
  */
 public class mainFrame extends JFrame {
     private final Dimension FRAME_SIZE = new Dimension(800, 800);
-    private final leftPanel left;
+//    private final leftPanel left;
     private final rightPanel right;
     private final topPanel top;
     private final bottomPanel bottom;
@@ -37,13 +38,13 @@ public class mainFrame extends JFrame {
         setResizable(false);
         GuiBoard = new guiBoard(game, this);
 
-        left = new leftPanel();
+//        left = new leftPanel();
         right = new rightPanel(new moveListPanel(GuiBoard));
         top = new topPanel(GuiBoard);
         bottom = new bottomPanel();
 
         add(GuiBoard, BorderLayout.CENTER);
-        add(left, BorderLayout.WEST);
+//        add(left, BorderLayout.WEST);
         add(right, BorderLayout.EAST);
         add(bottom, BorderLayout.SOUTH);
         add(top, BorderLayout.NORTH);
@@ -66,7 +67,7 @@ public class mainFrame extends JFrame {
             topPanel.setBackground(Color.decode( "#F5F5F5"));
             bottomPanel.setBackground(Color.decode( "#F5F5F5"));
             topPanel.setPreferredSize(new Dimension(30, 30));
-            bottomPanel.setPreferredSize(new Dimension(30, 30));
+            bottomPanel.setPreferredSize(new Dimension(30, 40));
             setBackground(Color.decode( "#F5F5F5"));
             setPreferredSize(new Dimension(150, 150));
             setBorder(BorderFactory.createLoweredBevelBorder());
@@ -79,30 +80,33 @@ public class mainFrame extends JFrame {
             add(bottomPanel, BorderLayout.SOUTH);
         }
 
-        public void addPieceIconToCaptured(Piece piece, JPanel panel)
-        {
-            String filePath = "C:\\Users\\Devon\\IdeaProjects\\chessGame\\PiecePictures\\";
+        public void addPieceIconToCaptured(Piece piece, JPanel panel) {
+            // Build classpath resource path (same pattern as addPieceIconToSquare)
+            StringBuilder path = new StringBuilder("/GUI/PiecePictures/");
+            path.append(piece.getColour() == Colour.WHITE ? "W" : "B");
+            path.append(piece.toString()).append(".png");
 
-            if (piece.getColour() == Colour.WHITE)
-                filePath += "W";
-            else
-                filePath += "B";
-
-            filePath += piece.toString();
-            filePath += ".png";
-            BufferedImage myImage;
             try {
-                myImage = ImageIO.read(new File(filePath));
+                // Load from classpath (not from file system)
+                var imageUrl = getClass().getResource(path.toString());
+                if (imageUrl == null) {
+                    throw new IOException("Image resource not found: " + path);
+                }
 
-                //Resize the image
-                Image resizedImage = myImage.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-                ImageIcon icon = new ImageIcon(resizedImage);
-                JLabel pieceImage = new JLabel(icon);
-                panel.add(pieceImage);
+                BufferedImage img = ImageIO.read(imageUrl);
+
+                // Resize for captured-piece display (smaller)
+                Image scaled = img.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+                JLabel label = new JLabel(new ImageIcon(scaled));
+
+                panel.add(label);
+
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                System.err.println("Failed to load captured piece image: " + path);
+                e.printStackTrace();
             }
         }
+
         public void addIcons(List<Piece> Pieces, JPanel panel)
         {
             panel.removeAll();
@@ -139,7 +143,7 @@ public class mainFrame extends JFrame {
             currentStatus.setText("Current game status: " + possibleStatus[status.ordinal()]);
             add(currentStatus);
             setBackground(Color.decode( "#F5F5F5"));
-            setPreferredSize(new Dimension(150, 150));
+            setPreferredSize(new Dimension(150, 100));
             setBorder(BorderFactory.createLoweredBevelBorder());
         }
         public void updateBottomPanel()
@@ -229,7 +233,7 @@ public class mainFrame extends JFrame {
         {
             this.GuiBoard = GuiBoard;
             setBackground(Color.decode( "#F5F5F5"));
-            setPreferredSize(new Dimension(375, 375));
+            setPreferredSize(new Dimension(375, 345));
             textArea.setEditable(false);
             JScrollPane scrollPane = new JScrollPane(textArea);
             scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -249,9 +253,9 @@ public class mainFrame extends JFrame {
 
 
 
-    public leftPanel getLeft() {
-        return left;
-    }
+//    public leftPanel getLeft() {
+//        return left;
+//    }
 
     public bottomPanel getBottom() {
         return bottom;

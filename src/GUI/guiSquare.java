@@ -116,32 +116,41 @@ public class guiSquare extends JPanel {
         else
             setBackground(Color.decode("#4682B4"));
     }
-    public void addPieceIconToSquare()
-    {
+    public void addPieceIconToSquare() {
         removeAll();
-        if (!game.getBoard().getSquareAt(getCoordinate()).isOccupied())
+
+        // if square empty → no piece → no image
+        if (!game.getBoard().getSquareAt(getCoordinate()).isOccupied()) {
             return;
-
-        String filePath = "C:\\Users\\Devon\\IdeaProjects\\chessGame\\PiecePictures\\";
-
-        if (game.getBoard().getSquareAt(getCoordinate()).getPiece().getColour() == Colour.WHITE)
-            filePath += "W";
-        else
-            filePath += "B";
-
-        filePath += game.getBoard().getSquareAt(getCoordinate()).getPiece().toString();
-        filePath += ".png";
-        BufferedImage myImage;
-        try {
-            myImage = ImageIO.read(new File(filePath));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
-        Image resizedImage = myImage.getScaledInstance(45, 45, Image.SCALE_SMOOTH);
-        ImageIcon icon = new ImageIcon(resizedImage);
-        JLabel pieceImage = new JLabel(icon);
-        add(pieceImage);
+
+        Piece piece = game.getBoard().getSquareAt(getCoordinate()).getPiece();
+
+        // build classpath resource path (NOT filesystem path)
+        StringBuilder path = new StringBuilder("/GUI/PiecePictures/");
+        path.append(piece.getColour() == Colour.WHITE ? "W" : "B");
+        path.append(piece.toString()).append(".png");
+
+        try {
+            // load from classpath
+            var imageUrl = getClass().getResource(path.toString());
+            if (imageUrl == null) {
+                throw new IOException("Image resource not found: " + path);
+            }
+
+            BufferedImage img = ImageIO.read(imageUrl);
+
+            // resize to fit square
+            Image scaled = img.getScaledInstance(45, 45, Image.SCALE_SMOOTH);
+            JLabel label = new JLabel(new ImageIcon(scaled));
+            add(label);
+
+        } catch (IOException e) {
+            System.err.println("Failed to load piece image: " + path);
+            e.printStackTrace();
+        }
     }
+
     Coordinate getCoordinate()
     {
         return coordinate;

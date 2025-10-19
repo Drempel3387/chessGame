@@ -7,6 +7,5 @@ public class Main {
         Board board = new Board();
         Game game = new Game(board);
         mainFrame frame = new mainFrame(game);
-
     }
 }
